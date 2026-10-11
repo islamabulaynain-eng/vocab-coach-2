@@ -3,129 +3,195 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Vocab Recall Coach</title>
+<title>Vocab Recall Coach v2</title>
 <style>
 /* ===== CSS VARIABLES ===== */
 :root {
---bg: #f0f4f8;
---surface: #ffffff;
---surface2: #f8fafc;
---border: #e2e8f0;
---text: #1e293b;
---text2: #64748b;
---primary: #6366f1;
---primary-dark: #4f46e5;
---primary-light: #e0e7ff;
---success: #10b981;
---success-light: #d1fae5;
---danger: #ef4444;
---danger-light: #fee2e2;
---warning: #f59e0b;
---warning-light: #fef3c7;
---info: #3b82f6;
---info-light: #dbeafe;
---shadow: 0 2px 12px rgba(0,0,0,0.08);
---shadow-lg: 0 8px 32px rgba(0,0,0,0.12);
---radius: 12px;
---radius-sm: 8px;
---transition: all 0.25s ease;
+  --bg: #f0f4f8;
+  --surface: #ffffff;
+  --surface2: #f8fafc;
+  --border: #e2e8f0;
+  --text: #1e293b;
+  --text2: #64748b;
+  --primary: #6366f1;
+  --primary-dark: #4f46e5;
+  --primary-light: #e0e7ff;
+  --success: #10b981;
+  --success-light: #d1fae5;
+  --danger: #ef4444;
+  --danger-light: #fee2e2;
+  --warning: #f59e0b;
+  --warning-light: #fef3c7;
+  --info: #3b82f6;
+  --info-light: #dbeafe;
+  --shadow: 0 2px 12px rgba(0,0,0,0.08);
+  --shadow-lg: 0 8px 32px rgba(0,0,0,0.12);
+  --radius: 12px;
+  --radius-sm: 8px;
+  --transition: all 0.25s ease;
 }
 body.dark {
---bg: #0f172a;
---surface: #1e293b;
---surface2: #162032;
---border: #334155;
---text: #f1f5f9;
---text2: #94a3b8;
---primary: #818cf8;
---primary-dark: #6366f1;
---primary-light: #1e1b4b;
---success-light: #064e3b;
---danger-light: #450a0a;
---warning-light: #451a03;
---info-light: #1e3a5f;
---shadow: 0 2px 12px rgba(0,0,0,0.3);
---shadow-lg: 0 8px 32px rgba(0,0,0,0.4);
+  --bg: #0f172a;
+  --surface: #1e293b;
+  --surface2: #162032;
+  --border: #334155;
+  --text: #f1f5f9;
+  --text2: #94a3b8;
+  --primary: #818cf8;
+  --primary-dark: #6366f1;
+  --primary-light: #1e1b4b;
+  --success-light: #064e3b;
+  --danger-light: #450a0a;
+  --warning-light: #451a03;
+  --info-light: #1e3a5f;
+  --shadow: 0 2px 12px rgba(0,0,0,0.3);
+  --shadow-lg: 0 8px 32px rgba(0,0,0,0.4);
 }
+/* ===== RESET ===== */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 body {
-font-family: 'Segoe UI', system-ui, sans-serif;
-background: var(--bg);
-color: var(--text);
-min-height: 100vh;
-transition: var(--transition);
+  font-family: 'Segoe UI', system-ui, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  transition: var(--transition);
 }
-input, textarea, select, button { font-family: inherit; font-size: 14px; transition: var(--transition); }
+input, textarea, select, button {
+  font-family: inherit;
+  font-size: 14px;
+  transition: var(--transition);
+}
 input, textarea, select {
-width: 100%;
-padding: 10px 14px;
-border: 1.5px solid var(--border);
-border-radius: var(--radius-sm);
-background: var(--surface);
-color: var(--text);
-outline: none;
+  width: 100%;
+  padding: 10px 14px;
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--surface);
+  color: var(--text);
+  outline: none;
 }
 input:focus, textarea:focus, select:focus {
-border-color: var(--primary);
-box-shadow: 0 0 0 3px var(--primary-light);
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px var(--primary-light);
 }
 textarea { resize: vertical; min-height: 70px; }
-button { cursor: pointer; border: none; border-radius: var(--radius-sm); padding: 10px 18px; font-weight: 600; }
+button {
+  cursor: pointer;
+  border: none;
+  border-radius: var(--radius-sm);
+  padding: 10px 18px;
+  font-weight: 600;
+}
 
 /* ===== HEADER ===== */
 .app-header {
-background: var(--surface);
-border-bottom: 1.5px solid var(--border);
-padding: 0 24px;
-display: flex;
-align-items: center;
-justify-content: space-between;
-height: 64px;
-box-shadow: var(--shadow);
-position: sticky;
-top: 0;
-z-index: 100;
+  background: var(--surface);
+  border-bottom: 1.5px solid var(--border);
+  padding: 0 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 64px;
+  box-shadow: var(--shadow);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  pointer-events: all;
 }
-.app-logo { font-size: 22px; font-weight: 800; color: var(--primary); letter-spacing: -0.5px; }
-.app-logo span { color: var(--text2); font-weight: 400; font-size: 14px; margin-left: 8px; }
-.header-actions { display: flex; align-items: center; gap: 10px; }
+.app-logo {
+  font-size: 22px;
+  font-weight: 800;
+  color: var(--primary);
+  letter-spacing: -0.5px;
+}
+.app-logo span {
+  color: var(--text2);
+  font-weight: 400;
+  font-size: 14px;
+  margin-left: 8px;
+}
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* ===== SYNC STATUS INDICATOR ===== */
+.sync-indicator {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+  border: 1.5px solid var(--border);
+  background: var(--surface2);
+  cursor: pointer;
+  transition: var(--transition);
+}
+.sync-indicator:hover { border-color: var(--primary); }
+.sync-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--text2);
+}
+.sync-dot.synced { background: var(--success); }
+.sync-dot.syncing {
+  background: var(--warning);
+  animation: pulse 1s infinite;
+}
+.sync-dot.failed { background: var(--danger); }
+.sync-dot.offline { background: var(--text2); }
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.3; }
+}
+
+/* ===== DARK TOGGLE ===== */
 .dark-toggle {
-background: var(--surface2);
-border: 1.5px solid var(--border);
-color: var(--text);
-padding: 8px 14px;
-border-radius: 20px;
-font-size: 16px;
-display: flex;
-align-items: center;
-gap: 6px;
-cursor: pointer;
+  background: var(--surface2);
+  border: 1.5px solid var(--border);
+  color: var(--text);
+  padding: 8px 14px;
+  border-radius: 20px;
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
 }
-.dark-toggle:hover { background: var(--primary-light); border-color: var(--primary); color: var(--primary); }
+.dark-toggle:hover {
+  background: var(--primary-light);
+  border-color: var(--primary);
+  color: var(--primary);
+}
 
 /* ===== NAV TABS ===== */
 .nav-tabs {
-display: flex;
-background: var(--surface);
-border-bottom: 1.5px solid var(--border);
-padding: 0 24px;
-gap: 4px;
-overflow-x: auto;
-position: relative;
-z-index: 50;
+  display: flex;
+  background: var(--surface);
+  border-bottom: 1.5px solid var(--border);
+  padding: 0 24px;
+  gap: 4px;
+  overflow-x: auto;
+  position: relative;
+  z-index: 10;
 }
 .nav-tab {
-padding: 14px 20px;
-background: none;
-border: none;
-border-bottom: 3px solid transparent;
-color: var(--text2);
-font-weight: 600;
-font-size: 14px;
-white-space: nowrap;
-border-radius: 0;
-cursor: pointer;
-transition: var(--transition);
+  padding: 14px 20px;
+  background: none;
+  border: none;
+  border-bottom: 3px solid transparent;
+  color: var(--text2);
+  font-weight: 600;
+  font-size: 14px;
+  white-space: nowrap;
+  border-radius: 0;
+  cursor: pointer;
+  transition: var(--transition);
+  pointer-events: all;
 }
 .nav-tab:hover { color: var(--primary); background: var(--primary-light); }
 .nav-tab.active { color: var(--primary); border-bottom-color: var(--primary); }
@@ -137,38 +203,107 @@ transition: var(--transition);
 
 /* ===== CARDS ===== */
 .card {
-background: var(--surface);
-border: 1.5px solid var(--border);
-border-radius: var(--radius);
-padding: 24px;
-box-shadow: var(--shadow);
-margin-bottom: 20px;
+  background: var(--surface);
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius);
+  padding: 24px;
+  box-shadow: var(--shadow);
+  margin-bottom: 20px;
 }
 .card-title {
-font-size: 17px;
-font-weight: 700;
-color: var(--text);
-margin-bottom: 18px;
-display: flex;
-align-items: center;
-gap: 8px;
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 18px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
 
 /* ===== BUTTONS ===== */
-.btn { display: inline-flex; align-items: center; gap: 6px; padding: 10px 18px; border-radius: var(--radius-sm); font-weight: 600; font-size: 14px; border: none; cursor: pointer; transition: var(--transition); }
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 10px 18px;
+  border-radius: var(--radius-sm);
+  font-weight: 600;
+  font-size: 14px;
+  border: none;
+  cursor: pointer;
+  transition: var(--transition);
+  pointer-events: all;
+  position: relative;
+  z-index: 2;
+}
 .btn-primary { background: var(--primary); color: #fff; }
-.btn-primary:hover { background: var(--primary-dark); transform: translateY(-1px); box-shadow: 0 4px 12px rgba(99,102,241,0.3); }
+.btn-primary:hover {
+  background: var(--primary-dark);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(99,102,241,0.3);
+}
 .btn-success { background: var(--success); color: #fff; }
 .btn-success:hover { background: #059669; transform: translateY(-1px); }
 .btn-danger { background: var(--danger); color: #fff; }
 .btn-danger:hover { background: #dc2626; }
 .btn-warning { background: var(--warning); color: #fff; }
 .btn-warning:hover { background: #d97706; }
-.btn-ghost { background: var(--surface2); color: var(--text); border: 1.5px solid var(--border); }
-.btn-ghost:hover { background: var(--primary-light); border-color: var(--primary); color: var(--primary); }
+.btn-ghost {
+  background: var(--surface2);
+  color: var(--text);
+  border: 1.5px solid var(--border);
+}
+.btn-ghost:hover {
+  background: var(--primary-light);
+  border-color: var(--primary);
+  color: var(--primary);
+}
 .btn-sm { padding: 6px 12px; font-size: 13px; }
 .btn-lg { padding: 13px 26px; font-size: 16px; }
 .btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none !important; }
+
+/* ===== PRONOUNCE BUTTON ===== */
+.btn-pronounce {
+  background: var(--info-light);
+  color: var(--info);
+  border: 1.5px solid var(--info);
+  padding: 4px 10px;
+  font-size: 13px;
+  border-radius: 20px;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  cursor: pointer;
+  transition: var(--transition);
+  pointer-events: all;
+  position: relative;
+  z-index: 2;
+}
+.btn-pronounce:hover {
+  background: var(--info);
+  color: #fff;
+  transform: scale(1.05);
+}
+.speed-btns {
+  display: flex;
+  gap: 4px;
+  align-items: center;
+}
+.speed-btn {
+  padding: 3px 8px;
+  font-size: 11px;
+  border-radius: 12px;
+  border: 1.5px solid var(--border);
+  background: var(--surface2);
+  color: var(--text2);
+  cursor: pointer;
+  transition: var(--transition);
+}
+.speed-btn:hover, .speed-btn.active {
+  background: var(--info);
+  color: #fff;
+  border-color: var(--info);
+}
 
 /* ===== FORM ===== */
 .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
@@ -179,15 +314,20 @@ gap: 8px;
 .form-actions { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 8px; }
 
 /* ===== STATS ===== */
-.stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 16px; margin-bottom: 20px; }
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 16px;
+  margin-bottom: 20px;
+}
 .stat-card {
-background: var(--surface);
-border: 1.5px solid var(--border);
-border-radius: var(--radius);
-padding: 20px;
-text-align: center;
-box-shadow: var(--shadow);
-transition: var(--transition);
+  background: var(--surface);
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius);
+  padding: 20px;
+  text-align: center;
+  box-shadow: var(--shadow);
+  transition: var(--transition);
 }
 .stat-card:hover { transform: translateY(-2px); box-shadow: var(--shadow-lg); }
 .stat-number { font-size: 36px; font-weight: 800; color: var(--primary); }
@@ -195,8 +335,19 @@ transition: var(--transition);
 .stat-icon { font-size: 24px; margin-bottom: 8px; }
 
 /* ===== PROGRESS BAR ===== */
-.progress-bar-wrap { background: var(--border); border-radius: 99px; height: 10px; overflow: hidden; margin: 6px 0; }
-.progress-bar-fill { height: 100%; border-radius: 99px; background: var(--primary); transition: width 0.5s ease; }
+.progress-bar-wrap {
+  background: var(--border);
+  border-radius: 99px;
+  height: 10px;
+  overflow: hidden;
+  margin: 6px 0;
+}
+.progress-bar-fill {
+  height: 100%;
+  border-radius: 99px;
+  background: var(--primary);
+  transition: width 0.5s ease;
+}
 .progress-bar-fill.green { background: var(--success); }
 .progress-bar-fill.orange { background: var(--warning); }
 .progress-bar-fill.red { background: var(--danger); }
@@ -204,25 +355,39 @@ transition: var(--transition);
 /* ===== WORD LIST ===== */
 .word-list { display: flex; flex-direction: column; gap: 10px; }
 .word-item {
-background: var(--surface);
-border: 1.5px solid var(--border);
-border-radius: var(--radius);
-padding: 16px 20px;
-display: flex;
-align-items: center;
-justify-content: space-between;
-gap: 12px;
-box-shadow: var(--shadow);
-transition: var(--transition);
+  background: var(--surface);
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius);
+  padding: 16px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  box-shadow: var(--shadow);
+  transition: var(--transition);
+  position: relative;
 }
 .word-item:hover { border-color: var(--primary); transform: translateX(3px); }
-.word-item-left { flex: 1; min-width: 0; }
+.word-item-left { flex: 1; }
 .word-item-word { font-size: 18px; font-weight: 700; color: var(--text); }
 .word-item-meta { font-size: 13px; color: var(--text2); margin-top: 3px; }
-.word-item-actions { display: flex; gap: 8px; flex-shrink: 0; align-items: center; position: relative; z-index: 2; }
+.word-item-actions {
+  display: flex;
+  gap: 8px;
+  flex-shrink: 0;
+  align-items: center;
+  position: relative;
+  z-index: 2;
+}
 
 /* ===== BADGES ===== */
-.badge { display: inline-block; padding: 3px 10px; border-radius: 99px; font-size: 12px; font-weight: 600; }
+.badge {
+  display: inline-block;
+  padding: 3px 10px;
+  border-radius: 99px;
+  font-size: 12px;
+  font-weight: 600;
+}
 .badge-primary { background: var(--primary-light); color: var(--primary); }
 .badge-success { background: var(--success-light); color: var(--success); }
 .badge-warning { background: var(--warning-light); color: var(--warning); }
@@ -231,121 +396,226 @@ transition: var(--transition);
 
 /* ===== PRACTICE ===== */
 .practice-word-display {
-font-size: 52px;
-font-weight: 900;
-color: var(--primary);
-text-align: center;
-letter-spacing: 3px;
-margin: 16px 0;
-min-height: 64px;
-font-family: 'Courier New', monospace;
+  font-size: 52px;
+  font-weight: 900;
+  color: var(--primary);
+  text-align: center;
+  letter-spacing: 3px;
+  margin: 16px 0;
+  min-height: 64px;
+  font-family: 'Courier New', monospace;
 }
 .practice-meaning {
-font-size: 18px;
-color: var(--text);
-text-align: center;
-background: var(--surface2);
-border-radius: var(--radius);
-padding: 16px;
-margin: 12px 0;
-border: 1.5px solid var(--border);
-line-height: 1.6;
+  font-size: 18px;
+  color: var(--text);
+  text-align: center;
+  background: var(--surface2);
+  border-radius: var(--radius);
+  padding: 16px;
+  margin: 12px 0;
+  border: 1.5px solid var(--border);
+  line-height: 1.6;
 }
 .practice-hint {
-font-size: 15px;
-color: var(--warning);
-text-align: center;
-font-style: italic;
-margin: 8px 0;
-min-height: 26px;
-font-weight: 600;
+  font-size: 15px;
+  color: var(--warning);
+  text-align: center;
+  font-style: italic;
+  margin: 8px 0;
+  min-height: 26px;
+  font-weight: 600;
 }
-.hint-buttons { display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; margin: 12px 0; }
-.rating-buttons { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; margin: 16px 0; }
-.rating-btn { padding: 12px 24px; border-radius: var(--radius-sm); font-weight: 700; font-size: 15px; border: none; cursor: pointer; transition: var(--transition); }
+.hint-buttons {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin: 12px 0;
+}
+.rating-buttons {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin: 16px 0;
+}
+.rating-btn {
+  padding: 12px 24px;
+  border-radius: var(--radius-sm);
+  font-weight: 700;
+  font-size: 15px;
+  border: none;
+  cursor: pointer;
+  transition: var(--transition);
+}
 .rating-btn:hover { transform: translateY(-2px); box-shadow: var(--shadow-lg); }
 .rating-forgot { background: var(--danger); color: #fff; }
 .rating-hard { background: var(--warning); color: #fff; }
 .rating-good { background: var(--info); color: #fff; }
 .rating-easy { background: var(--success); color: #fff; }
 .user-input-area { margin: 14px 0; }
-.user-input-area input { font-size: 18px; text-align: center; padding: 14px; border-radius: var(--radius); }
+.user-input-area input {
+  font-size: 18px;
+  text-align: center;
+  padding: 14px;
+  border-radius: var(--radius);
+}
+
+/* ===== BULK IMPORT ===== */
+.bulk-step {
+  display: none;
+}
+.bulk-step.active {
+  display: block;
+}
+.bulk-word-preview {
+  font-size: 36px;
+  font-weight: 900;
+  color: var(--primary);
+  font-family: 'Courier New', monospace;
+  text-align: center;
+  padding: 16px;
+  background: var(--primary-light);
+  border-radius: var(--radius);
+  margin-bottom: 16px;
+  letter-spacing: 2px;
+}
+.bulk-progress-label {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text2);
+  text-align: center;
+  margin-bottom: 8px;
+}
+.bulk-summary-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 12px;
+  margin: 20px 0;
+}
+.bulk-summary-item {
+  text-align: center;
+  padding: 16px;
+  border-radius: var(--radius);
+  border: 1.5px solid var(--border);
+}
+.bulk-summary-num {
+  font-size: 32px;
+  font-weight: 800;
+}
+.bulk-summary-label {
+  font-size: 12px;
+  color: var(--text2);
+  margin-top: 4px;
+}
+.duplicate-badge {
+  display: inline-block;
+  background: var(--warning-light);
+  color: var(--warning);
+  border: 1.5px solid var(--warning);
+  padding: 3px 10px;
+  border-radius: 99px;
+  font-size: 12px;
+  font-weight: 600;
+  margin-left: 8px;
+}
 
 /* ===== TOAST ===== */
 .toast-container {
-position: fixed;
-bottom: 24px;
-right: 24px;
-z-index: 9999;
-display: flex;
-flex-direction: column;
-gap: 10px;
-pointer-events: none;
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  pointer-events: none;
 }
 .toast {
-background: var(--surface);
-border: 1.5px solid var(--border);
-border-radius: var(--radius);
-padding: 14px 20px;
-box-shadow: var(--shadow-lg);
-font-size: 14px;
-font-weight: 600;
-color: var(--text);
-min-width: 260px;
-max-width: 380px;
-display: flex;
-align-items: center;
-gap: 10px;
-animation: slideIn 0.3s ease;
-pointer-events: all;
+  background: var(--surface);
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius);
+  padding: 14px 20px;
+  box-shadow: var(--shadow-lg);
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text);
+  min-width: 260px;
+  max-width: 380px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  animation: slideIn 0.3s ease;
+  pointer-events: all;
 }
 .toast.success { border-left: 4px solid var(--success); }
 .toast.error { border-left: 4px solid var(--danger); }
 .toast.info { border-left: 4px solid var(--info); }
 .toast.warning { border-left: 4px solid var(--warning); }
-@keyframes slideIn { from { transform: translateX(120%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
-@keyframes slideOut { from { transform: translateX(0); opacity: 1; } to { transform: translateX(120%); opacity: 0; } }
+@keyframes slideIn {
+  from { transform: translateX(120%); opacity: 0; }
+  to { transform: translateX(0); opacity: 1; }
+}
+@keyframes slideOut {
+  from { transform: translateX(0); opacity: 1; }
+  to { transform: translateX(120%); opacity: 0; }
+}
 
 /* ===== MODAL ===== */
 .modal-overlay {
-display: none;
-position: fixed;
-inset: 0;
-background: rgba(0,0,0,0.5);
-z-index: 500;
-align-items: center;
-justify-content: center;
-padding: 20px;
-pointer-events: none;
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.5);
+  z-index: 500;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  pointer-events: none;
 }
-.modal-overlay.open { display: flex; pointer-events: all; }
+.modal-overlay.open {
+  display: flex;
+  pointer-events: all;
+}
 .modal {
-background: var(--surface);
-border-radius: var(--radius);
-padding: 28px;
-width: 100%;
-max-width: 600px;
-max-height: 90vh;
-overflow-y: auto;
-box-shadow: var(--shadow-lg);
-border: 1.5px solid var(--border);
+  background: var(--surface);
+  border-radius: var(--radius);
+  padding: 28px;
+  width: 100%;
+  max-width: 600px;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: var(--shadow-lg);
+  border: 1.5px solid var(--border);
+  pointer-events: all;
 }
-.modal-title { font-size: 20px; font-weight: 800; margin-bottom: 20px; color: var(--text); }
-.modal-actions { display: flex; gap: 10px; justify-content: flex-end; margin-top: 20px; flex-wrap: wrap; }
+.modal-title {
+  font-size: 20px;
+  font-weight: 800;
+  margin-bottom: 20px;
+  color: var(--text);
+}
+.modal-actions {
+  display: flex;
+  gap: 10px;
+  justify-content: flex-end;
+  margin-top: 20px;
+  flex-wrap: wrap;
+}
 
 /* ===== LOG WINDOW ===== */
 .log-window {
-background: #0f172a;
-color: #94a3b8;
-border-radius: var(--radius-sm);
-padding: 14px;
-font-family: 'Courier New', monospace;
-font-size: 13px;
-min-height: 120px;
-max-height: 220px;
-overflow-y: auto;
-margin: 12px 0;
-border: 1.5px solid #334155;
+  background: #0f172a;
+  color: #94a3b8;
+  border-radius: var(--radius-sm);
+  padding: 14px;
+  font-family: 'Courier New', monospace;
+  font-size: 13px;
+  min-height: 120px;
+  max-height: 220px;
+  overflow-y: auto;
+  margin: 12px 0;
+  border: 1.5px solid #334155;
 }
 .log-window .log-line { margin-bottom: 4px; line-height: 1.5; }
 .log-window .log-ok { color: #10b981; }
@@ -354,25 +624,39 @@ border: 1.5px solid #334155;
 .log-window .log-warn { color: #f59e0b; }
 
 /* ===== YOUGLISH ===== */
-.youglish-frame { width: 100%; height: 420px; border: none; border-radius: var(--radius); background: var(--surface2); }
+.youglish-frame {
+  width: 100%;
+  height: 420px;
+  border: none;
+  border-radius: var(--radius);
+  background: var(--surface2);
+}
 
 /* ===== SEARCH BAR ===== */
 .search-bar { position: relative; margin-bottom: 16px; }
 .search-bar input { padding-left: 40px; }
-.search-bar::before { content: '🔍'; position: absolute; left: 12px; top: 50%; transform: translateY(-50%); font-size: 16px; z-index: 1; pointer-events: none; }
+.search-bar::before {
+  content: '🔍';
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 16px;
+  z-index: 1;
+}
 
-/* ===== COLLOCATION TAGS ===== */
+/* ===== TAGS ===== */
 .tag-list { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 6px; }
 .tag {
-background: var(--primary-light);
-color: var(--primary);
-border-radius: 99px;
-padding: 4px 12px;
-font-size: 13px;
-font-weight: 600;
-display: flex;
-align-items: center;
-gap: 4px;
+  background: var(--primary-light);
+  color: var(--primary);
+  border-radius: 99px;
+  padding: 4px 12px;
+  font-size: 13px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 4px;
 }
 .tag-remove { cursor: pointer; font-size: 16px; line-height: 1; opacity: 0.6; }
 .tag-remove:hover { opacity: 1; }
@@ -386,16 +670,48 @@ gap: 4px;
 .empty-state-title { font-size: 18px; font-weight: 700; margin-bottom: 6px; color: var(--text); }
 .empty-state-text { font-size: 14px; }
 
+/* ===== GOOGLE SHEETS SETUP ===== */
+.setup-steps {
+  counter-reset: step;
+  list-style: none;
+  padding: 0;
+}
+.setup-steps li {
+  counter-increment: step;
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--border);
+  font-size: 14px;
+  color: var(--text);
+}
+.setup-steps li::before {
+  content: counter(step);
+  background: var(--primary);
+  color: #fff;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
 /* ===== RESPONSIVE ===== */
 @media (max-width: 640px) {
-.form-grid { grid-template-columns: 1fr; }
-.form-grid.cols-3 { grid-template-columns: 1fr; }
-.practice-word-display { font-size: 36px; }
-.rating-btn { padding: 10px 16px; font-size: 14px; }
-.app-header { padding: 0 14px; }
-.main-content { padding: 16px 12px; }
-.nav-tabs { padding: 0 8px; }
-.nav-tab { padding: 12px 14px; font-size: 13px; }
+  .form-grid { grid-template-columns: 1fr; }
+  .form-grid.cols-3 { grid-template-columns: 1fr; }
+  .practice-word-display { font-size: 36px; }
+  .rating-btn { padding: 10px 16px; font-size: 14px; }
+  .app-header { padding: 0 14px; }
+  .main-content { padding: 16px 12px; }
+  .nav-tabs { padding: 0 8px; }
+  .nav-tab { padding: 12px 14px; font-size: 13px; }
+  .sync-indicator span { display: none; }
 }
 </style>
 </head>
@@ -411,7 +727,11 @@ gap: 4px;
     <div class="form-grid">
       <div class="form-group">
         <label class="form-label">Word *</label>
-        <input type="text" id="mWord" placeholder="e.g. ambiguous" oninput="onWordInput(this.value)"/>
+        <div style="display:flex;gap:8px;align-items:center;">
+          <input type="text" id="mWord" placeholder="e.g. ambiguous"
+            oninput="onWordInput(this.value)" style="flex:1;"/>
+          <button class="btn-pronounce" onclick="pronounceWord(document.getElementById('mWord').value, currentPronounceRate)" title="Preview pronunciation">🔊</button>
+        </div>
       </div>
       <div class="form-group">
         <label class="form-label">IPA Pronunciation</label>
@@ -440,12 +760,13 @@ gap: 4px;
       </div>
       <div class="form-group full">
         <label class="form-label">Example Sentences (one per line) *</label>
-        <textarea id="mExamples" placeholder="e.g. The instructions were ambiguous.&#10;His smile was ambiguous." style="min-height:90px;"></textarea>
+        <textarea id="mExamples" placeholder="e.g. The instructions were ambiguous." style="min-height:90px;"></textarea>
       </div>
       <div class="form-group full">
         <label class="form-label">Collocations</label>
         <div style="display:flex;gap:8px;">
-          <input type="text" id="mCollocInput" placeholder="Type collocation and press Enter" onkeydown="addCollocation(event)"/>
+          <input type="text" id="mCollocInput" placeholder="Type collocation and press Enter"
+            onkeydown="addCollocation(event)"/>
           <button class="btn btn-ghost btn-sm" onclick="addCollocation({key:'Enter'})">Add</button>
         </div>
         <div class="tag-list" id="mCollocTags"></div>
@@ -481,9 +802,13 @@ gap: 4px;
 <header class="app-header">
   <div class="app-logo">
     📚 VocabCoach
-    <span>Active Recall System</span>
+    <span>v2.0</span>
   </div>
   <div class="header-actions">
+    <div class="sync-indicator" id="syncIndicator" onclick="manualSync()" title="Click to sync">
+      <div class="sync-dot offline" id="syncDot"></div>
+      <span id="syncText">Not Connected</span>
+    </div>
     <button class="dark-toggle" onclick="toggleDark()" id="darkBtn">🌙 Dark Mode</button>
   </div>
 </header>
@@ -493,6 +818,7 @@ gap: 4px;
   <button class="nav-tab active" onclick="showTab('dashboard')">🏠 Dashboard</button>
   <button class="nav-tab" onclick="showTab('practice')">🧠 Practice</button>
   <button class="nav-tab" onclick="showTab('vocabulary')">📖 Vocabulary</button>
+  <button class="nav-tab" onclick="showTab('bulk')">📥 Bulk Import</button>
   <button class="nav-tab" onclick="showTab('youglish')">🎙 YouGlish</button>
   <button class="nav-tab" onclick="showTab('settings')">⚙️ Settings</button>
 </nav>
@@ -500,281 +826,480 @@ gap: 4px;
 <!-- ===== MAIN CONTENT ===== -->
 <main class="main-content">
 
-  <!-- DASHBOARD -->
-  <div class="tab-panel active" id="tab-dashboard">
-    <div class="stats-grid">
-      <div class="stat-card">
-        <div class="stat-icon">📚</div>
-        <div class="stat-number" id="statTotal">0</div>
-        <div class="stat-label">Total Words</div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-icon">🔥</div>
-        <div class="stat-number" id="statDue">0</div>
-        <div class="stat-label">Due for Review</div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-icon">✅</div>
-        <div class="stat-number" id="statMastered">0</div>
-        <div class="stat-label">Mastered</div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-icon">📅</div>
-        <div class="stat-number" id="statStreak">0</div>
-        <div class="stat-label">Day Streak</div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-icon">🎯</div>
-        <div class="stat-number" id="statAccuracy">0%</div>
-        <div class="stat-label">Accuracy</div>
-      </div>
+<!-- ========== TAB: DASHBOARD ========== -->
+<div class="tab-panel active" id="tab-dashboard">
+  <div class="stats-grid">
+    <div class="stat-card">
+      <div class="stat-icon">📚</div>
+      <div class="stat-number" id="statTotal">0</div>
+      <div class="stat-label">Total Words</div>
     </div>
-    <div style="display:grid; grid-template-columns:1fr 1fr; gap:20px;">
-      <div class="card">
-        <div class="card-title">📊 Proficiency Distribution</div>
-        <div style="display:flex;flex-direction:column;gap:12px;" id="proficiencyBars"></div>
-      </div>
-      <div class="card">
-        <div class="card-title">⚠️ Weakest Words</div>
-        <div id="weakestWords">
-          <div class="empty-state">
-            <div class="empty-state-icon">🌱</div>
-            <div class="empty-state-text">Practice more to identify weak words</div>
-          </div>
-        </div>
-      </div>
+    <div class="stat-card">
+      <div class="stat-icon">🔥</div>
+      <div class="stat-number" id="statDue">0</div>
+      <div class="stat-label">Due for Review</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-icon">✅</div>
+      <div class="stat-number" id="statMastered">0</div>
+      <div class="stat-label">Mastered</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-icon">📅</div>
+      <div class="stat-number" id="statStreak">0</div>
+      <div class="stat-label">Day Streak</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-icon">🎯</div>
+      <div class="stat-number" id="statAccuracy">0%</div>
+      <div class="stat-label">Accuracy</div>
+    </div>
+  </div>
+  <div style="display:grid; grid-template-columns:1fr 1fr; gap:20px;">
+    <div class="card">
+      <div class="card-title">📊 Proficiency Distribution</div>
+      <div style="display:flex;flex-direction:column;gap:12px;" id="proficiencyBars"></div>
     </div>
     <div class="card">
-      <div class="card-title">📅 Recent Activity</div>
-      <div id="recentActivity">
+      <div class="card-title">⚠️ Weakest Words</div>
+      <div id="weakestWords">
         <div class="empty-state">
-          <div class="empty-state-icon">📭</div>
-          <div class="empty-state-text">No activity yet. Start practicing!</div>
+          <div class="empty-state-icon">🌱</div>
+          <div class="empty-state-text">Practice more to identify weak words</div>
         </div>
       </div>
     </div>
   </div>
-
-  <!-- PRACTICE -->
-  <div class="tab-panel" id="tab-practice">
-    <div class="card" id="practiceSetupCard">
-      <div class="card-title">🧠 Practice Session Setup</div>
-      <div class="form-grid">
-        <div class="form-group">
-          <label class="form-label">Session Type</label>
-          <select id="practiceType">
-            <option value="due">Due for Review</option>
-            <option value="all">All Words</option>
-            <option value="weak">Weakest Words</option>
-            <option value="new">New Words Only</option>
-          </select>
-        </div>
-        <div class="form-group">
-          <label class="form-label">Number of Words</label>
-          <select id="practiceCount">
-            <option value="5">5 words</option>
-            <option value="10" selected>10 words</option>
-            <option value="20">20 words</option>
-            <option value="all">All available</option>
-          </select>
-        </div>
-      </div>
-      <div class="form-actions">
-        <button class="btn btn-primary btn-lg" onclick="startPractice()">🚀 Start Practice</button>
-      </div>
-    </div>
-
-    <div id="practiceSessionCard" style="display:none;">
-      <div class="card">
-        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
-          <span style="font-size:13px; color:var(--text2); font-weight:600;" id="practiceProgress">Word 1 of 10</span>
-          <span class="badge badge-primary" id="practiceSessionScore">Score: 0</span>
-        </div>
-        <div class="progress-bar-wrap">
-          <div class="progress-bar-fill" id="practiceProgressBar" style="width:0%"></div>
-        </div>
-        <div style="text-align:center; margin: 24px 0 8px;">
-          <div style="font-size:13px; color:var(--text2); font-weight:600; margin-bottom:8px;">What word means:</div>
-          <div class="practice-meaning" id="practiceMeaning">—</div>
-          <div style="font-size:13px; color:var(--text2); margin-top:8px;" id="practicePos"></div>
-        </div>
-        <div id="practiceExampleWrap" style="display:none; margin:10px 0;">
-          <div style="font-size:13px; color:var(--text2); font-weight:600; margin-bottom:4px;">Example:</div>
-          <div style="font-style:italic; color:var(--text); background:var(--surface2); padding:12px; border-radius:var(--radius-sm); border:1.5px solid var(--border);" id="practiceExample"></div>
-        </div>
-        <div class="practice-hint" id="practiceHintDisplay"></div>
-        <div class="user-input-area">
-          <input type="text" id="practiceInput" placeholder="Type the word here..." onkeydown="if(event.key==='Enter') checkAnswer()"/>
-        </div>
-        <div class="hint-buttons">
-          <button class="btn btn-ghost btn-sm" onclick="showHint('example')">💡 Show Example</button>
-          <button class="btn btn-ghost btn-sm" onclick="showHint('first')">🔤 First Letter</button>
-          <button class="btn btn-ghost btn-sm" onclick="showHint('syllables')">🔊 Syllables</button>
-          <button class="btn btn-ghost btn-sm" onclick="showHint('ipa')">📢 IPA</button>
-          <button class="btn btn-warning btn-sm" onclick="revealAnswer()">👁 Reveal</button>
-        </div>
-        <div id="answerFeedback" style="display:none; margin:16px 0; padding:16px; border-radius:var(--radius); text-align:center;"></div>
-        <div class="rating-buttons" id="ratingButtons" style="display:none;">
-          <div style="width:100%; text-align:center; font-size:13px; color:var(--text2); font-weight:600; margin-bottom:4px;">How well did you recall it?</div>
-          <button class="rating-btn rating-forgot" onclick="rateWord(0)">😰 Forgot</button>
-          <button class="rating-btn rating-hard" onclick="rateWord(1)">😓 Hard</button>
-          <button class="rating-btn rating-good" onclick="rateWord(2)">🙂 Good</button>
-          <button class="rating-btn rating-easy" onclick="rateWord(3)">😄 Easy</button>
-        </div>
-        <div style="text-align:center; margin-top:10px;">
-          <button class="btn btn-primary btn-lg" id="checkBtn" onclick="checkAnswer()">✅ Check Answer</button>
-        </div>
-      </div>
-    </div>
-
-    <div id="practiceCompleteCard" style="display:none;">
-      <div class="card" style="text-align:center; padding:40px;">
-        <div style="font-size:56px; margin-bottom:16px;">🎉</div>
-        <div style="font-size:26px; font-weight:800; color:var(--primary); margin-bottom:8px;">Session Complete!</div>
-        <div style="font-size:16px; color:var(--text2); margin-bottom:24px;" id="sessionSummary"></div>
-        <div style="display:flex; gap:12px; justify-content:center; flex-wrap:wrap;">
-          <button class="btn btn-primary btn-lg" onclick="startPractice()">🔄 Practice Again</button>
-          <button class="btn btn-ghost btn-lg" onclick="showTab('dashboard')">🏠 Dashboard</button>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- VOCABULARY -->
-  <div class="tab-panel" id="tab-vocabulary">
-    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px; flex-wrap:wrap; gap:10px;">
-      <div style="font-size:20px; font-weight:800; color:var(--text);">📖 My Vocabulary</div>
-      <button class="btn btn-primary" onclick="openAddWordModal()">➕ Add Word</button>
-    </div>
-    <div class="card" style="padding:16px;">
-      <div style="display:flex; gap:10px; flex-wrap:wrap; align-items:center;">
-        <div class="search-bar" style="flex:1; min-width:200px; margin-bottom:0;">
-          <input type="text" id="vocabSearch" placeholder="Search words..." oninput="renderVocabList()"/>
-        </div>
-        <select id="vocabFilter" onchange="renderVocabList()" style="width:auto; min-width:140px;">
-          <option value="all">All Words</option>
-          <option value="due">Due for Review</option>
-          <option value="mastered">Mastered</option>
-          <option value="learning">Still Learning</option>
-          <option value="new">New</option>
-        </select>
-        <select id="vocabSort" onchange="renderVocabList()" style="width:auto; min-width:140px;">
-          <option value="newest">Newest First</option>
-          <option value="oldest">Oldest First</option>
-          <option value="az">A → Z</option>
-          <option value="za">Z → A</option>
-          <option value="due">Due Date</option>
-          <option value="weak">Weakest First</option>
-        </select>
-      </div>
-    </div>
-    <div class="word-list" id="vocabList">
+  <div class="card">
+    <div class="card-title">📅 Recent Activity</div>
+    <div id="recentActivity">
       <div class="empty-state">
         <div class="empty-state-icon">📭</div>
-        <div class="empty-state-title">No words yet</div>
-        <div class="empty-state-text">Click "Add Word" to start building your vocabulary!</div>
+        <div class="empty-state-text">No activity yet. Start practicing!</div>
       </div>
     </div>
   </div>
+</div>
 
-  <!-- YOUGLISH -->
-  <div class="tab-panel" id="tab-youglish">
-    <div class="card">
-      <div class="card-title">🎙 YouGlish — Hear Real Pronunciation</div>
-      <div style="display:flex; gap:10px; margin-bottom:16px; flex-wrap:wrap;">
-        <input type="text" id="youglishWord" placeholder="Enter a word to hear it used..." style="flex:1;"/>
-        <select id="youglishLang" style="width:auto; min-width:130px;">
-          <option value="english">English</option>
-          <option value="british">British</option>
-          <option value="australian">Australian</option>
+<!-- ========== TAB: PRACTICE ========== -->
+<div class="tab-panel" id="tab-practice">
+  <div class="card" id="practiceSetupCard">
+    <div class="card-title">🧠 Practice Session Setup</div>
+    <div class="form-grid">
+      <div class="form-group">
+        <label class="form-label">Session Type</label>
+        <select id="practiceType">
+          <option value="due">Due for Review</option>
+          <option value="all">All Words</option>
+          <option value="weak">Weakest Words</option>
+          <option value="new">New Words Only</option>
         </select>
-        <button class="btn btn-primary" onclick="loadYouglish()">▶️ Search</button>
       </div>
-      <iframe class="youglish-frame" id="youglishFrame" src="about:blank" allowfullscreen></iframe>
+      <div class="form-group">
+        <label class="form-label">Number of Words</label>
+        <select id="practiceCount">
+          <option value="5">5 words</option>
+          <option value="10" selected>10 words</option>
+          <option value="20">20 words</option>
+          <option value="all">All available</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-actions">
+      <button class="btn btn-primary btn-lg" onclick="startPractice()">🚀 Start Practice</button>
     </div>
   </div>
 
-  <!-- SETTINGS -->
-  <div class="tab-panel" id="tab-settings">
+  <div id="practiceSessionCard" style="display:none;">
     <div class="card">
-      <div class="card-title">🤖 Gemini AI Configuration</div>
-      <div class="form-group" style="margin-bottom:14px;">
-        <label class="form-label">Gemini API Key</label>
-        <div style="display:flex; gap:10px;">
-          <input type="password" id="geminiKeyInput" placeholder="Paste your Gemini API key here..."/>
-          <button class="btn btn-ghost btn-sm" onclick="toggleKeyVisibility()" id="toggleKeyBtn" style="white-space:nowrap;">👁 Show</button>
-        </div>
-        <div style="font-size:12px; color:var(--text2); margin-top:6px;">
-          Get your free key at <a href="https://aistudio.google.com/app/apikey" target="_blank" style="color:var(--primary);">aistudio.google.com</a>
-        </div>
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+        <span style="font-size:13px; color:var(--text2); font-weight:600;" id="practiceProgress">Word 1 of 10</span>
+        <span class="badge badge-primary" id="practiceSessionScore">Score: 0</span>
       </div>
-      <div class="form-actions">
-        <button class="btn btn-success" onclick="saveApiKey()">💾 Save Key</button>
-        <button class="btn btn-ghost" onclick="testApiKey()">🔌 Test Key</button>
-        <button class="btn btn-danger btn-sm" onclick="clearApiKey()">🗑 Remove Key</button>
+      <div class="progress-bar-wrap">
+        <div class="progress-bar-fill" id="practiceProgressBar" style="width:0%"></div>
       </div>
-      <div id="keyTestArea" style="display:none; margin-top:14px;">
-        <div style="font-size:13px; font-weight:600; color:var(--text2); margin-bottom:6px;">🔍 Key Test Progress:</div>
-        <div class="log-window" id="keyTestLog"></div>
+      <div style="text-align:center; margin: 24px 0 8px;">
+        <div style="font-size:13px; color:var(--text2); font-weight:600; margin-bottom:8px;">What word means:</div>
+        <div class="practice-meaning" id="practiceMeaning">—</div>
+        <div style="font-size:13px; color:var(--text2); margin-top:8px;" id="practicePos"></div>
+      </div>
+      <div id="practiceExampleWrap" style="display:none; margin:10px 0;">
+        <div style="font-size:13px; color:var(--text2); font-weight:600; margin-bottom:4px;">Example:</div>
+        <div style="font-style:italic; color:var(--text); background:var(--surface2); padding:12px; border-radius:var(--radius-sm); border:1.5px solid var(--border);" id="practiceExample"></div>
+      </div>
+      <div class="practice-hint" id="practiceHintDisplay"></div>
+      <div class="user-input-area">
+        <input type="text" id="practiceInput" placeholder="Type the word here..."
+          onkeydown="if(event.key==='Enter') checkAnswer()"/>
+      </div>
+      <div class="hint-buttons">
+        <button class="btn btn-ghost btn-sm" onclick="showHint('example')">💡 Example</button>
+        <button class="btn btn-ghost btn-sm" onclick="showHint('first')">🔤 First Letter</button>
+        <button class="btn btn-ghost btn-sm" onclick="showHint('syllables')">🔊 Syllables</button>
+        <button class="btn btn-ghost btn-sm" onclick="showHint('ipa')">📢 IPA</button>
+        <button class="btn-pronounce" onclick="pronounceCurrentPracticeWord()">🔊 Pronounce</button>
+        <button class="btn btn-warning btn-sm" onclick="revealAnswer()">👁 Reveal</button>
+      </div>
+      <div id="answerFeedback" style="display:none; margin:16px 0; padding:16px; border-radius:var(--radius); text-align:center;"></div>
+      <div class="rating-buttons" id="ratingButtons" style="display:none;">
+        <div style="width:100%; text-align:center; font-size:13px; color:var(--text2); font-weight:600; margin-bottom:4px;">How well did you recall it?</div>
+        <button class="rating-btn rating-forgot" onclick="rateWord(0)">😰 Forgot</button>
+        <button class="rating-btn rating-hard" onclick="rateWord(1)">😓 Hard</button>
+        <button class="rating-btn rating-good" onclick="rateWord(2)">🙂 Good</button>
+        <button class="rating-btn rating-easy" onclick="rateWord(3)">😄 Easy</button>
+      </div>
+      <div style="text-align:center; margin-top:10px;">
+        <button class="btn btn-primary btn-lg" id="checkBtn" onclick="checkAnswer()">✅ Check Answer</button>
       </div>
     </div>
+  </div>
 
-    <div class="card">
-      <div class="card-title">🔌 Connection Diagnostics</div>
-      <p style="font-size:14px; color:var(--text2); margin-bottom:14px;">Test which APIs and proxies are reachable from your network.</p>
-      <button class="btn btn-primary" onclick="runConnectionTest()">▶️ Run Connection Test</button>
-      <div id="connTestArea" style="display:none; margin-top:14px;">
-        <div style="font-size:13px; font-weight:600; color:var(--text2); margin-bottom:6px;">📡 Connection Test Progress:</div>
-        <div class="log-window" id="connTestLog"></div>
+  <div id="practiceCompleteCard" style="display:none;">
+    <div class="card" style="text-align:center; padding:40px;">
+      <div style="font-size:56px; margin-bottom:16px;">🎉</div>
+      <div style="font-size:26px; font-weight:800; color:var(--primary); margin-bottom:8px;">Session Complete!</div>
+      <div style="font-size:16px; color:var(--text2); margin-bottom:24px;" id="sessionSummary"></div>
+      <div style="display:flex; gap:12px; justify-content:center; flex-wrap:wrap;">
+        <button class="btn btn-primary btn-lg" onclick="startPractice()">🔄 Practice Again</button>
+        <button class="btn btn-ghost btn-lg" onclick="showTab('dashboard')">🏠 Dashboard</button>
       </div>
     </div>
+  </div>
+</div>
 
-    <div class="card">
-      <div class="card-title">💾 Data Management</div>
-      <div style="display:flex; gap:10px; flex-wrap:wrap;">
-        <button class="btn btn-primary" onclick="exportData('json')">📤 Export JSON</button>
-        <button class="btn btn-ghost" onclick="exportData('csv')">📊 Export CSV</button>
-        <button class="btn btn-ghost" onclick="document.getElementById('importFile').click()">📥 Import JSON</button>
-        <button class="btn btn-danger" onclick="confirmClearAll()">🗑 Clear All Data</button>
+<!-- ========== TAB: VOCABULARY ========== -->
+<div class="tab-panel" id="tab-vocabulary">
+  <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px; flex-wrap:wrap; gap:10px;">
+    <div style="font-size:20px; font-weight:800; color:var(--text);">📖 My Vocabulary</div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap;">
+      <button class="btn btn-ghost" onclick="showTab('bulk')">📥 Bulk Import</button>
+      <button class="btn btn-primary" onclick="openAddWordModal()">➕ Add Word</button>
+    </div>
+  </div>
+  <div class="card" style="padding:16px;">
+    <div style="display:flex; gap:10px; flex-wrap:wrap; align-items:center;">
+      <div class="search-bar" style="flex:1; min-width:200px; margin-bottom:0;">
+        <input type="text" id="vocabSearch" placeholder="Search words..." oninput="renderVocabList()"/>
       </div>
-      <input type="file" id="importFile" accept=".json" style="display:none;" onchange="importData(event)"/>
-      <div style="font-size:12px; color:var(--text2); margin-top:10px;">
-        All data is stored locally in your browser. Export regularly to back up your vocabulary.
+      <select id="vocabFilter" onchange="renderVocabList()" style="width:auto; min-width:140px;">
+        <option value="all">All Words</option>
+        <option value="due">Due for Review</option>
+        <option value="mastered">Mastered</option>
+        <option value="learning">Still Learning</option>
+        <option value="new">New</option>
+      </select>
+      <select id="vocabSort" onchange="renderVocabList()" style="width:auto; min-width:140px;">
+        <option value="newest">Newest First</option>
+        <option value="oldest">Oldest First</option>
+        <option value="az">A → Z</option>
+        <option value="za">Z → A</option>
+        <option value="due">Due Date</option>
+        <option value="weak">Weakest First</option>
+      </select>
+    </div>
+  </div>
+  <div class="word-list" id="vocabList">
+    <div class="empty-state">
+      <div class="empty-state-icon">📭</div>
+      <div class="empty-state-title">No words yet</div>
+      <div class="empty-state-text">Click "Add Word" to start building your vocabulary!</div>
+    </div>
+  </div>
+</div>
+
+<!-- ========== TAB: BULK IMPORT ========== -->
+<div class="tab-panel" id="tab-bulk">
+
+  <!-- Step 1: Paste -->
+  <div class="bulk-step active" id="bulkStep1">
+    <div class="card">
+      <div class="card-title">📥 Bulk Word Import</div>
+      <p style="font-size:14px; color:var(--text2); margin-bottom:16px;">
+        Paste a list of words separated by commas, newlines, or semicolons. The app will look up each word automatically and ask you to confirm before saving.
+      </p>
+      <div class="form-group" style="margin-bottom:16px;">
+        <label class="form-label">Paste your word list here</label>
+        <textarea id="bulkPasteInput" style="min-height:140px; font-size:15px;"
+          placeholder="resilient, ambiguous, scrutinize, eloquent&#10;or one word per line&#10;or word1; word2; word3"></textarea>
+      </div>
+      <div style="display:flex; gap:10px; flex-wrap:wrap; align-items:center;">
+        <button class="btn btn-primary btn-lg" onclick="startBulkImport()">▶️ Start Import</button>
+        <span style="font-size:13px; color:var(--text2);" id="bulkWordCount"></span>
+      </div>
+      <div id="bulkParsePreview" style="margin-top:16px; display:none;">
+        <div style="font-size:13px; font-weight:600; color:var(--text2); margin-bottom:8px;">Words detected:</div>
+        <div class="tag-list" id="bulkParsedTags"></div>
       </div>
     </div>
+    <div class="card" style="background:var(--info-light); border-color:var(--info);">
+      <div class="card-title" style="color:var(--info);">💡 Tips</div>
+      <ul style="font-size:14px; color:var(--text); line-height:2; padding-left:20px;">
+        <li>Works best with a Gemini API key configured in Settings</li>
+        <li>Duplicate words will be flagged — you can still confirm to update</li>
+        <li>You can edit all fields before confirming each word</li>
+        <li>Use Stop button to end early and save what was confirmed</li>
+      </ul>
+    </div>
+  </div>
 
+  <!-- Step 2: Review each word -->
+  <div class="bulk-step" id="bulkStep2">
     <div class="card">
-      <div class="card-title">⏱️ Spaced Repetition Settings</div>
+      <div class="bulk-progress-label" id="bulkProgressLabel">Word 1 of 5</div>
+      <div class="progress-bar-wrap" style="margin-bottom:16px;">
+        <div class="progress-bar-fill" id="bulkProgressBar" style="width:0%"></div>
+      </div>
+      <div class="bulk-word-preview" id="bulkWordPreview">—</div>
+      <div id="bulkDuplicateWarning" style="display:none; text-align:center; margin-bottom:12px;">
+        <span class="duplicate-badge">⚠️ Already in your library</span>
+      </div>
+      <div id="bulkLookupStatus" style="margin-bottom:12px;">
+        <div class="log-window" id="bulkLookupLog" style="min-height:60px; max-height:120px;"></div>
+      </div>
       <div class="form-grid">
         <div class="form-group">
-          <label class="form-label">Forgot → Next review (days)</label>
-          <input type="number" id="srsForgot" value="1" min="1" max="7"/>
+          <label class="form-label">IPA</label>
+          <input type="text" id="bIpa" placeholder="/ɪˈzæmpəl/"/>
         </div>
         <div class="form-group">
-          <label class="form-label">Hard → Next review (days)</label>
-          <input type="number" id="srsHard" value="3" min="1" max="14"/>
+          <label class="form-label">Arabic Meaning *</label>
+          <input type="text" id="bMeaning" placeholder="المعنى بالعربية"/>
         </div>
         <div class="form-group">
-          <label class="form-label">Good → Next review (days)</label>
-          <input type="number" id="srsGood" value="7" min="1" max="30"/>
+          <label class="form-label">Part of Speech</label>
+          <select id="bPos">
+            <option value="">-- Select --</option>
+            <option value="adjective">Adjective</option>
+            <option value="noun">Noun</option>
+            <option value="verb">Verb</option>
+            <option value="adverb">Adverb</option>
+            <option value="phrase">Phrase</option>
+            <option value="idiom">Idiom</option>
+            <option value="other">Other</option>
+          </select>
         </div>
         <div class="form-group">
-          <label class="form-label">Easy → Next review (days)</label>
-          <input type="number" id="srsEasy" value="14" min="1" max="60"/>
+          <label class="form-label">🔊 Pronunciation</label>
+          <div style="display:flex;gap:6px;align-items:center;flex-wrap:wrap;">
+            <button class="btn-pronounce" onclick="pronounceBulkWord()">🔊 Listen</button>
+            <div class="speed-btns">
+              <button class="speed-btn" onclick="setBulkSpeed(0.6, this)">🐢 Slow</button>
+              <button class="speed-btn active" onclick="setBulkSpeed(0.85, this)">🔊 Normal</button>
+              <button class="speed-btn" onclick="setBulkSpeed(1.1, this)">⚡ Fast</button>
+            </div>
+          </div>
+        </div>
+        <div class="form-group full">
+          <label class="form-label">Definition</label>
+          <textarea id="bDefinition" style="min-height:60px;" placeholder="English definition..."></textarea>
+        </div>
+        <div class="form-group full">
+          <label class="form-label">Examples (one per line)</label>
+          <textarea id="bExamples" style="min-height:80px;" placeholder="Example sentences..."></textarea>
+        </div>
+        <div class="form-group full">
+          <label class="form-label">Collocations</label>
+          <input type="text" id="bCollocs" placeholder="Comma-separated collocations"/>
+        </div>
+        <div class="form-group full">
+          <label class="form-label">Mnemonic</label>
+          <textarea id="bMnemonic" style="min-height:50px;" placeholder="Memory tip..."></textarea>
         </div>
       </div>
-      <div class="form-actions">
-        <button class="btn btn-success" onclick="saveSrsSettings()">💾 Save SRS Settings</button>
-        <button class="btn btn-ghost" onclick="resetSrsSettings()">↩️ Reset Defaults</button>
+      <div style="display:flex; gap:10px; flex-wrap:wrap; justify-content:center; margin-top:20px;">
+        <button class="btn btn-success btn-lg" onclick="confirmBulkWord()">✅ Confirm & Save</button>
+        <button class="btn btn-ghost btn-lg" onclick="skipBulkWord()">⏭ Skip</button>
+        <button class="btn btn-danger btn-sm" onclick="stopBulkImport()">⏹ Stop</button>
       </div>
     </div>
   </div>
+
+  <!-- Step 3: Summary -->
+  <div class="bulk-step" id="bulkStep3">
+    <div class="card" style="text-align:center; padding:40px;">
+      <div style="font-size:56px; margin-bottom:16px;">📊</div>
+      <div style="font-size:26px; font-weight:800; color:var(--primary); margin-bottom:20px;">Import Complete!</div>
+      <div class="bulk-summary-grid" id="bulkSummaryGrid"></div>
+      <div style="display:flex; gap:12px; justify-content:center; flex-wrap:wrap; margin-top:20px;">
+        <button class="btn btn-primary btn-lg" onclick="resetBulkImport()">📥 Import More</button>
+        <button class="btn btn-ghost btn-lg" onclick="showTab('vocabulary')">📖 View Vocabulary</button>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ========== TAB: YOUGLISH ========== -->
+<div class="tab-panel" id="tab-youglish">
+  <div class="card">
+    <div class="card-title">🎙 YouGlish — Hear Real Pronunciation</div>
+    <div style="display:flex; gap:10px; margin-bottom:16px; flex-wrap:wrap;">
+      <input type="text" id="youglishWord" placeholder="Enter a word to hear it used..." style="flex:1;"/>
+      <select id="youglishLang" style="width:auto; min-width:130px;">
+        <option value="english">English</option>
+        <option value="british">British</option>
+        <option value="australian">Australian</option>
+      </select>
+      <button class="btn btn-primary" onclick="loadYouglish()">▶️ Search</button>
+    </div>
+    <iframe class="youglish-frame" id="youglishFrame" src="about:blank" allowfullscreen></iframe>
+  </div>
+</div>
+
+<!-- ========== TAB: SETTINGS ========== -->
+<div class="tab-panel" id="tab-settings">
+
+  <!-- Pronunciation Settings -->
+  <div class="card">
+    <div class="card-title">🔊 Pronunciation Settings</div>
+    <div class="form-grid">
+      <div class="form-group">
+        <label class="form-label">Default Speed</label>
+        <select id="pronounceSpeedSetting" onchange="savePronounceSettings()">
+          <option value="0.6">🐢 Slow (0.6)</option>
+          <option value="0.85" selected>🔊 Normal (0.85)</option>
+          <option value="1.1">⚡ Fast (1.1)</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Auto-Pronounce After Reveal</label>
+        <select id="autoPronounce" onchange="savePronounceSettings()">
+          <option value="on">✅ On</option>
+          <option value="off">❌ Off</option>
+        </select>
+      </div>
+    </div>
+    <div style="margin-top:14px;">
+      <label class="form-label" style="margin-bottom:8px; display:block;">Test Pronunciation</label>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;">
+        <input type="text" id="pronounceTestWord" placeholder="Type a word to test..." style="flex:1;max-width:300px;"/>
+        <button class="btn-pronounce" onclick="pronounceWord(document.getElementById('pronounceTestWord').value, parseFloat(document.getElementById('pronounceSpeedSetting').value))">🔊 Test</button>
+        <button class="btn btn-ghost btn-sm" onclick="pronounceWord(document.getElementById('pronounceTestWord').value, 0.6)">🐢 Slow</button>
+        <button class="btn btn-ghost btn-sm" onclick="pronounceWord(document.getElementById('pronounceTestWord').value, 1.1)">⚡ Fast</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Google Sheets Sync -->
+  <div class="card">
+    <div class="card-title">☁️ Google Sheets Sync</div>
+    <div class="form-group" style="margin-bottom:14px;">
+      <label class="form-label">Google Apps Script Web App URL</label>
+      <div style="display:flex; gap:10px;">
+        <input type="text" id="sheetsUrlInput" placeholder="https://script.google.com/macros/s/.../exec"/>
+        <button class="btn btn-success btn-sm" onclick="saveSheetUrl()">💾 Save</button>
+      </div>
+    </div>
+    <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:16px;">
+      <button class="btn btn-primary" onclick="testSheetConnection()">🔌 Test Connection</button>
+      <button class="btn btn-ghost" onclick="manualSync()">🔄 Sync Now</button>
+      <button class="btn btn-danger btn-sm" onclick="clearSheetUrl()">🗑 Disconnect</button>
+    </div>
+    <div id="sheetTestLog" style="display:none;">
+      <div class="log-window" id="sheetTestLogWindow"></div>
+    </div>
+    <hr class="divider"/>
+    <div style="font-size:14px; font-weight:700; color:var(--text); margin-bottom:12px;">📋 One-Time Setup Instructions</div>
+    <ol class="setup-steps">
+      <li>Open your Google Sheet → click <strong>Extensions</strong> → <strong>Apps Script</strong></li>
+      <li>Delete any existing code and paste the <strong>Apps Script code</strong> provided below</li>
+      <li>Click <strong>Deploy</strong> → <strong>New Deployment</strong> → choose <strong>Web App</strong></li>
+      <li>Set <em>Execute as:</em> <strong>Me</strong> and <em>Who has access:</em> <strong>Anyone</strong></li>
+      <li>Click <strong>Deploy</strong> → copy the <strong>Web App URL</strong></li>
+      <li>Paste the URL above and click <strong>Save</strong></li>
+    </ol>
+    <div style="margin-top:16px;">
+      <button class="btn btn-ghost btn-sm" onclick="toggleAppsScript()">📋 Show Apps Script Code</button>
+      <div id="appsScriptCode" style="display:none; margin-top:12px;">
+        <pre style="background:#0f172a; color:#94a3b8; padding:16px; border-radius:var(--radius-sm); font-size:12px; overflow-x:auto; white-space:pre-wrap; line-height:1.6;" id="appsScriptPre"></pre>
+        <button class="btn btn-primary btn-sm" style="margin-top:8px;" onclick="copyAppsScript()">📋 Copy Code</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Gemini API -->
+  <div class="card">
+    <div class="card-title">🤖 Gemini AI Configuration</div>
+    <div class="form-group" style="margin-bottom:14px;">
+      <label class="form-label">Gemini API Key</label>
+      <div style="display:flex; gap:10px;">
+        <input type="password" id="geminiKeyInput" placeholder="Paste your Gemini API key here..."/>
+        <button class="btn btn-ghost btn-sm" onclick="toggleKeyVisibility()" id="toggleKeyBtn" style="white-space:nowrap;">👁 Show</button>
+      </div>
+      <div style="font-size:12px; color:var(--text2); margin-top:6px;">
+        Get your free key at <a href="https://aistudio.google.com/app/apikey" target="_blank" style="color:var(--primary);">aistudio.google.com</a>
+      </div>
+    </div>
+    <div class="form-actions">
+      <button class="btn btn-success" onclick="saveApiKey()">💾 Save Key</button>
+      <button class="btn btn-ghost" onclick="testApiKey()">🔌 Test Key</button>
+      <button class="btn btn-danger btn-sm" onclick="clearApiKey()">🗑 Remove Key</button>
+    </div>
+    <div id="keyTestArea" style="display:none; margin-top:14px;">
+      <div class="log-window" id="keyTestLog"></div>
+    </div>
+  </div>
+
+  <!-- Connection Test -->
+  <div class="card">
+    <div class="card-title">🔌 Connection Diagnostics</div>
+    <p style="font-size:14px; color:var(--text2); margin-bottom:14px;">Test which APIs are reachable from your network.</p>
+    <button class="btn btn-primary" onclick="runConnectionTest()">▶️ Run Connection Test</button>
+    <div id="connTestArea" style="display:none; margin-top:14px;">
+      <div class="log-window" id="connTestLog"></div>
+    </div>
+  </div>
+
+  <!-- Data Management -->
+  <div class="card">
+    <div class="card-title">💾 Data Management</div>
+    <div style="display:flex; gap:10px; flex-wrap:wrap;">
+      <button class="btn btn-primary" onclick="exportData('json')">📤 Export JSON</button>
+      <button class="btn btn-ghost" onclick="exportData('csv')">📊 Export CSV</button>
+      <button class="btn btn-ghost" onclick="document.getElementById('importFile').click()">📥 Import JSON</button>
+      <button class="btn btn-danger" onclick="confirmClearAll()">🗑 Clear All Data</button>
+    </div>
+    <input type="file" id="importFile" accept=".json" style="display:none;" onchange="importData(event)"/>
+    <div style="font-size:12px; color:var(--text2); margin-top:10px;">
+      All data is stored locally in your browser. Export regularly to back up your vocabulary.
+    </div>
+  </div>
+
+  <!-- SRS Settings -->
+  <div class="card">
+    <div class="card-title">⏱️ Spaced Repetition Settings</div>
+    <div class="form-grid">
+      <div class="form-group">
+        <label class="form-label">Forgot → Next review (days)</label>
+        <input type="number" id="srsForgot" value="1" min="1" max="7"/>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Hard → Next review (days)</label>
+        <input type="number" id="srsHard" value="3" min="1" max="14"/>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Good → Next review (days)</label>
+        <input type="number" id="srsGood" value="7" min="1" max="30"/>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Easy → Next review (days)</label>
+        <input type="number" id="srsEasy" value="14" min="1" max="60"/>
+      </div>
+    </div>
+    <div class="form-actions">
+      <button class="btn btn-success" onclick="saveSrsSettings()">💾 Save SRS Settings</button>
+      <button class="btn btn-ghost" onclick="resetSrsSettings()">↩️ Reset Defaults</button>
+    </div>
+  </div>
+
+</div>
 
 </main>
 
 <script>
 /* ============================================================
-   DATA LAYER & STORAGE
+  CORE DATA & STORAGE
 ============================================================ */
 let vocab = [];
 let srsSettings = { forgot: 1, hard: 3, good: 7, easy: 14 };
@@ -783,10 +1308,14 @@ let currentCollocations = [];
 let editingWordId = null;
 let viewingWordId = null;
 let darkMode = false;
+let currentPronounceRate = 0.85;
+let autoPronounce = true;
+let sheetsUrl = '';
+let syncStatus = 'offline'; // offline | synced | syncing | failed
+let offlineQueue = []; // pending sync operations
 
 function saveVocab() {
-  try { localStorage.setItem('vocabCoach_words', JSON.stringify(vocab)); }
-  catch(e) { showToast('Storage error: ' + e.message, 'error'); }
+  try { localStorage.setItem('vocabCoach_words', JSON.stringify(vocab)); } catch(e) { showToast('Storage error: ' + e.message, 'error'); }
 }
 function loadVocab() {
   try {
@@ -800,6 +1329,46 @@ function loadSrsFromStorage() {
     const raw = localStorage.getItem('vocabCoach_srs');
     if (raw) srsSettings = { ...srsSettings, ...JSON.parse(raw) };
   } catch(e) {}
+}
+function savePronounceSettings() {
+  currentPronounceRate = parseFloat(document.getElementById('pronounceSpeedSetting').value) || 0.85;
+  autoPronounce = document.getElementById('autoPronounce').value === 'on';
+  localStorage.setItem('vocabCoach_pronounce', JSON.stringify({ rate: currentPronounceRate, auto: autoPronounce }));
+}
+function loadPronounceSettings() {
+  try {
+    const raw = localStorage.getItem('vocabCoach_pronounce');
+    if (raw) {
+      const s = JSON.parse(raw);
+      currentPronounceRate = s.rate || 0.85;
+      autoPronounce = s.auto !== false;
+    }
+  } catch(e) {}
+}
+function saveSheetUrl() {
+  sheetsUrl = document.getElementById('sheetsUrlInput').value.trim();
+  localStorage.setItem('vocabCoach_sheetsUrl', sheetsUrl);
+  if (sheetsUrl) {
+    showToast('✅ Google Sheets URL saved!', 'success');
+    updateSyncIndicator('offline');
+    fullSyncFromSheet();
+  } else {
+    showToast('URL cleared', 'info');
+    updateSyncIndicator('offline');
+  }
+}
+function loadSheetUrl() {
+  sheetsUrl = localStorage.getItem('vocabCoach_sheetsUrl') || '';
+  const el = document.getElementById('sheetsUrlInput');
+  if (el) el.value = sheetsUrl;
+}
+function clearSheetUrl() {
+  if (!confirm('Disconnect Google Sheets? Local data will be kept.')) return;
+  sheetsUrl = '';
+  localStorage.removeItem('vocabCoach_sheetsUrl');
+  document.getElementById('sheetsUrlInput').value = '';
+  updateSyncIndicator('offline');
+  showToast('Disconnected from Google Sheets', 'info');
 }
 function saveStreak() {
   const today = todayStr();
@@ -830,9 +1399,18 @@ function getActivityLog() {
     return raw ? JSON.parse(raw) : [];
   } catch(e) { return []; }
 }
+function saveOfflineQueue() {
+  localStorage.setItem('vocabCoach_queue', JSON.stringify(offlineQueue));
+}
+function loadOfflineQueue() {
+  try {
+    const raw = localStorage.getItem('vocabCoach_queue');
+    offlineQueue = raw ? JSON.parse(raw) : [];
+  } catch(e) { offlineQueue = []; }
+}
 
 /* ============================================================
-   WORD DATA MODEL
+  WORD DATA MODEL
 ============================================================ */
 function createWord(data) {
   return {
@@ -846,6 +1424,7 @@ function createWord(data) {
     collocations: (data.collocations || []),
     mnemonic: (data.mnemonic || '').trim(),
     dateAdded: todayStr(),
+    lastModified: new Date().toISOString(),
     nextReview: todayStr(),
     proficiency: 0,
     reviewCount: 0,
@@ -858,7 +1437,7 @@ function createWord(data) {
 }
 
 /* ============================================================
-   DATE UTILITIES
+  DATE UTILITIES
 ============================================================ */
 function todayStr() { return new Date().toISOString().split('T')[0]; }
 function offsetDate(days) {
@@ -894,13 +1473,14 @@ function timeAgo(ts) {
 }
 
 /* ============================================================
-   SRS
+  SRS
 ============================================================ */
 function applyRating(word, rating) {
   const intervals = [srsSettings.forgot, srsSettings.hard, srsSettings.good, srsSettings.easy];
   word.nextReview = addDays(todayStr(), intervals[rating]);
   word.reviewCount = (word.reviewCount || 0) + 1;
   word.lastRating = rating;
+  word.lastModified = new Date().toISOString();
   if (rating === 0) {
     word.wrongCount = (word.wrongCount || 0) + 1;
     word.proficiency = Math.max(0, (word.proficiency || 0) - 1);
@@ -931,16 +1511,67 @@ function getAccuracy(word) {
 }
 
 /* ============================================================
-   DARK MODE
+  PRONUNCIATION — WEB SPEECH API
+============================================================ */
+function pronounceWord(word, rate = 0.85) {
+  if (!word || !word.trim()) {
+    showToast('Please enter a word to pronounce', 'warning');
+    return;
+  }
+  if (!window.speechSynthesis) {
+    // Fallback: Google TTS
+    pronounceGoogleTTS(word);
+    return;
+  }
+  const utter = new SpeechSynthesisUtterance(word.trim());
+  utter.lang = 'en-US';
+  utter.rate = rate || currentPronounceRate;
+  utter.pitch = 1.0;
+  utter.volume = 1.0;
+  // Pick best available English voice
+  const voices = speechSynthesis.getVoices();
+  const engVoice = voices.find(v => v.lang.startsWith('en') && v.localService) ||
+                   voices.find(v => v.lang.startsWith('en'));
+  if (engVoice) utter.voice = engVoice;
+  speechSynthesis.cancel();
+  speechSynthesis.speak(utter);
+}
+function pronounceGoogleTTS(word) {
+  try {
+    const audio = new Audio(`https://translate.google.com/translate_tts?ie=UTF-8&q=${encodeURIComponent(word)}&tl=en&client=tw-ob`);
+    audio.play().catch(() => showToast('Could not play audio', 'warning'));
+  } catch(e) {
+    showToast('Pronunciation not available', 'warning');
+  }
+}
+function pronounceCurrentPracticeWord() {
+  const word = practiceSession.words[practiceSession.index];
+  if (word) pronounceWord(word.word, currentPronounceRate);
+}
+let bulkPronounceRate = 0.85;
+function pronounceBulkWord() {
+  const word = document.getElementById('bulkWordPreview').textContent;
+  if (word && word !== '—') pronounceWord(word, bulkPronounceRate);
+}
+function setBulkSpeed(rate, btn) {
+  bulkPronounceRate = rate;
+  document.querySelectorAll('.speed-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+}
+
+/* ============================================================
+  DARK MODE
 ============================================================ */
 function toggleDark() {
   darkMode = !darkMode;
   document.body.classList.toggle('dark', darkMode);
-  document.getElementById('darkBtn').textContent = darkMode ? '☀️ Light Mode' : '🌙 Dark Mode';
+  const btn = document.getElementById('darkBtn');
+  btn.textContent = darkMode ? '☀️ Light Mode' : '🌙 Dark Mode';
   localStorage.setItem('vocabCoach_dark', darkMode ? '1' : '0');
 }
 function loadDarkMode() {
-  if (localStorage.getItem('vocabCoach_dark') === '1') {
+  const saved = localStorage.getItem('vocabCoach_dark');
+  if (saved === '1') {
     darkMode = true;
     document.body.classList.add('dark');
     const btn = document.getElementById('darkBtn');
@@ -949,7 +1580,7 @@ function loadDarkMode() {
 }
 
 /* ============================================================
-   TAB NAVIGATION
+  TAB NAVIGATION
 ============================================================ */
 function showTab(tabName) {
   document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
@@ -964,10 +1595,11 @@ function showTab(tabName) {
   if (tabName === 'dashboard') updateDashboard();
   if (tabName === 'vocabulary') renderVocabList();
   if (tabName === 'settings') loadSettingsUI();
+  if (tabName === 'bulk') resetBulkImportUI();
 }
 
 /* ============================================================
-   TOAST NOTIFICATIONS
+  TOAST
 ============================================================ */
 function showToast(message, type = 'info', duration = 3500) {
   const container = document.getElementById('toastContainer');
@@ -983,14 +1615,15 @@ function showToast(message, type = 'info', duration = 3500) {
 }
 
 /* ============================================================
-   LOG WINDOW
+  LOG WINDOW
 ============================================================ */
 function logLine(containerId, message, type = 'info') {
   const el = document.getElementById(containerId);
   if (!el) return;
   const line = document.createElement('div');
   line.className = `log-line log-${type}`;
-  line.textContent = `[${new Date().toLocaleTimeString()}] ${message}`;
+  const time = new Date().toLocaleTimeString();
+  line.textContent = `[${time}] ${message}`;
   el.appendChild(line);
   el.scrollTop = el.scrollHeight;
 }
@@ -1000,7 +1633,313 @@ function clearLog(containerId) {
 }
 
 /* ============================================================
-   DASHBOARD
+  SYNC STATUS INDICATOR
+============================================================ */
+function updateSyncIndicator(status, message) {
+  syncStatus = status;
+  const dot = document.getElementById('syncDot');
+  const text = document.getElementById('syncText');
+  if (!dot || !text) return;
+  dot.className = 'sync-dot ' + status;
+  const labels = {
+    synced: '✅ Synced',
+    syncing: '🔄 Syncing...',
+    failed: '❌ Sync Failed',
+    offline: sheetsUrl ? '📴 Offline' : '☁️ Not Connected'
+  };
+  text.textContent = message || labels[status] || status;
+}
+
+/* ============================================================
+  GOOGLE SHEETS SYNC
+============================================================ */
+async function sheetRequest(action, payload = {}) {
+  if (!sheetsUrl) return null;
+  updateSyncIndicator('syncing');
+  try {
+    const url = sheetsUrl + '?action=' + action;
+    const res = await fetch(url, {
+      method: 'POST',
+      headers: { 'Content-Type': 'text/plain' },
+      body: JSON.stringify({ action, ...payload })
+    });
+    if (!res.ok) throw new Error('HTTP ' + res.status);
+    const data = await res.json();
+    updateSyncIndicator('synced');
+    return data;
+  } catch(e) {
+    updateSyncIndicator('failed');
+    // Queue for retry
+    offlineQueue.push({ action, payload, timestamp: Date.now() });
+    saveOfflineQueue();
+    return null;
+  }
+}
+async function syncWordToSheet(word, action = 'addWord') {
+  if (!sheetsUrl) return;
+  await sheetRequest(action, { word });
+}
+async function fullSyncFromSheet() {
+  if (!sheetsUrl) return;
+  updateSyncIndicator('syncing');
+  try {
+    const url = sheetsUrl + '?action=getAllWords';
+    const res = await fetch(url);
+    if (!res.ok) throw new Error('HTTP ' + res.status);
+    const data = await res.json();
+    if (data && data.words && Array.isArray(data.words)) {
+      // Merge: sheet wins if newer lastModified
+      data.words.forEach(sheetWord => {
+        const local = vocab.find(v => v.id === sheetWord.id);
+        if (!local) {
+          vocab.push(sheetWord);
+        } else {
+          const sheetTime = new Date(sheetWord.lastModified || 0).getTime();
+          const localTime = new Date(local.lastModified || 0).getTime();
+          if (sheetTime > localTime) {
+            Object.assign(local, sheetWord);
+          }
+        }
+      });
+      saveVocab();
+      renderVocabList();
+      updateDashboard();
+      updateSyncIndicator('synced');
+      showToast(`☁️ Synced ${data.words.length} words from Google Sheets`, 'success');
+    } else {
+      updateSyncIndicator('synced');
+    }
+  } catch(e) {
+    updateSyncIndicator('failed');
+  }
+}
+async function manualSync() {
+  if (!sheetsUrl) {
+    showTab('settings');
+    showToast('Please configure Google Sheets URL in Settings first', 'warning');
+    return;
+  }
+  showToast('🔄 Syncing with Google Sheets...', 'info');
+  await fullSyncFromSheet();
+  await flushOfflineQueue();
+}
+async function flushOfflineQueue() {
+  if (!sheetsUrl || offlineQueue.length === 0) return;
+  const queue = [...offlineQueue];
+  offlineQueue = [];
+  saveOfflineQueue();
+  for (const item of queue) {
+    await sheetRequest(item.action, item.payload);
+  }
+}
+async function testSheetConnection() {
+  const url = document.getElementById('sheetsUrlInput').value.trim();
+  const logDiv = document.getElementById('sheetTestLog');
+  const logId = 'sheetTestLogWindow';
+  logDiv.style.display = 'block';
+  clearLog(logId);
+  if (!url) {
+    logLine(logId, '❌ No URL entered', 'err');
+    return;
+  }
+  logLine(logId, 'Testing connection to Google Apps Script...', 'info');
+  try {
+    const controller = new AbortController();
+    const timer = setTimeout(() => controller.abort(), 10000);
+    const res = await fetch(url + '?action=ping', { signal: controller.signal });
+    clearTimeout(timer);
+    if (res.ok) {
+      const text = await res.text();
+      logLine(logId, `✅ Connected! Response: ${text.slice(0, 100)}`, 'ok');
+      showToast('✅ Google Sheets connection successful!', 'success');
+    } else {
+      logLine(logId, `⚠️ HTTP ${res.status} — check your deployment settings`, 'warn');
+    }
+  } catch(e) {
+    if (e.name === 'AbortError') {
+      logLine(logId, '❌ Timeout — URL may be incorrect', 'err');
+    } else {
+      logLine(logId, `❌ Error: ${e.message}`, 'err');
+    }
+  }
+}
+function toggleAppsScript() {
+  const div = document.getElementById('appsScriptCode');
+  const pre = document.getElementById('appsScriptPre');
+  if (div.style.display === 'none') {
+    div.style.display = 'block';
+    pre.textContent = getAppsScriptCode();
+  } else {
+    div.style.display = 'none';
+  }
+}
+function copyAppsScript() {
+  navigator.clipboard.writeText(getAppsScriptCode())
+    .then(() => showToast('✅ Apps Script code copied!', 'success'))
+    .catch(() => showToast('Copy failed — please select and copy manually', 'warning'));
+}
+function getAppsScriptCode() {
+  return `// ============================================================
+// Vocab Recall Coach — Google Apps Script Backend
+// Deploy as Web App: Execute as Me, Access: Anyone
+// ============================================================
+
+const SHEET_NAME_VOCAB = 'Vocabulary';
+const SHEET_NAME_LOG = 'SRS_Log';
+const SHEET_NAME_SESSIONS = 'Sessions';
+const SHEET_NAME_SETTINGS = 'Settings';
+
+function doGet(e) {
+  const action = e.parameter.action || '';
+  if (action === 'ping') return ContentService.createTextOutput('pong').setMimeType(ContentService.MimeType.TEXT);
+  if (action === 'getAllWords') return getAllWords();
+  return ContentService.createTextOutput('VocabCoach API').setMimeType(ContentService.MimeType.TEXT);
+}
+
+function doPost(e) {
+  try {
+    const body = JSON.parse(e.postData.contents);
+    const action = body.action || '';
+    if (action === 'addWord') return addWord(body.word);
+    if (action === 'updateWord') return updateWord(body.word);
+    if (action === 'deleteWord') return deleteWord(body.word);
+    if (action === 'logRating') return logRating(body);
+    if (action === 'logSession') return logSession(body);
+    if (action === 'updateSettings') return updateSettings(body);
+    return jsonResponse({ error: 'Unknown action' });
+  } catch(err) {
+    return jsonResponse({ error: err.message });
+  }
+}
+
+function getOrCreateSheet(name, headers) {
+  const ss = SpreadsheetApp.getActiveSpreadsheet();
+  let sheet = ss.getSheetByName(name);
+  if (!sheet) {
+    sheet = ss.insertSheet(name);
+    if (headers) sheet.getRange(1, 1, 1, headers.length).setValues([headers]);
+  }
+  return sheet;
+}
+
+const VOCAB_HEADERS = ['ID','Word','IPA','Arabic','POS','Definition','Examples','Collocations','Mnemonic','Proficiency','ReviewCount','CorrectCount','WrongCount','HintsUsed','NextReview','DateAdded','LastModified'];
+
+function getAllWords() {
+  const sheet = getOrCreateSheet(SHEET_NAME_VOCAB, VOCAB_HEADERS);
+  const data = sheet.getDataRange().getValues();
+  if (data.length <= 1) return jsonResponse({ words: [] });
+  const headers = data[0];
+  const words = data.slice(1).map(row => {
+    const obj = {};
+    headers.forEach((h, i) => obj[h] = row[i]);
+    return {
+      id: obj['ID'], word: obj['Word'], ipa: obj['IPA'],
+      meaning: obj['Arabic'], pos: obj['POS'],
+      definition: obj['Definition'],
+      examples: obj['Examples'] ? obj['Examples'].split('|') : [],
+      collocations: obj['Collocations'] ? obj['Collocations'].split('|') : [],
+      mnemonic: obj['Mnemonic'],
+      proficiency: parseInt(obj['Proficiency']) || 0,
+      reviewCount: parseInt(obj['ReviewCount']) || 0,
+      correctCount: parseInt(obj['CorrectCount']) || 0,
+      wrongCount: parseInt(obj['WrongCount']) || 0,
+      hintsUsed: parseInt(obj['HintsUsed']) || 0,
+      nextReview: obj['NextReview'],
+      dateAdded: obj['DateAdded'],
+      lastModified: obj['LastModified']
+    };
+  });
+  return jsonResponse({ words });
+}
+
+function addWord(word) {
+  const sheet = getOrCreateSheet(SHEET_NAME_VOCAB, VOCAB_HEADERS);
+  sheet.appendRow([
+    word.id, word.word, word.ipa || '', word.meaning || '',
+    word.pos || '', word.definition || '',
+    (word.examples || []).join('|'),
+    (word.collocations || []).join('|'),
+    word.mnemonic || '',
+    word.proficiency || 0, word.reviewCount || 0,
+    word.correctCount || 0, word.wrongCount || 0,
+    word.hintsUsed || 0, word.nextReview || '',
+    word.dateAdded || '', word.lastModified || new Date().toISOString()
+  ]);
+  return jsonResponse({ success: true });
+}
+
+function updateWord(word) {
+  const sheet = getOrCreateSheet(SHEET_NAME_VOCAB, VOCAB_HEADERS);
+  const data = sheet.getDataRange().getValues();
+  for (let i = 1; i < data.length; i++) {
+    if (data[i][0] === word.id) {
+      sheet.getRange(i + 1, 1, 1, 17).setValues([[
+        word.id, word.word, word.ipa || '', word.meaning || '',
+        word.pos || '', word.definition || '',
+        (word.examples || []).join('|'),
+        (word.collocations || []).join('|'),
+        word.mnemonic || '',
+        word.proficiency || 0, word.reviewCount || 0,
+        word.correctCount || 0, word.wrongCount || 0,
+        word.hintsUsed || 0, word.nextReview || '',
+        word.dateAdded || '', new Date().toISOString()
+      ]]);
+      return jsonResponse({ success: true });
+    }
+  }
+  return addWord(word);
+}
+
+function deleteWord(word) {
+  const sheet = getOrCreateSheet(SHEET_NAME_VOCAB, VOCAB_HEADERS);
+  const data = sheet.getDataRange().getValues();
+  for (let i = 1; i < data.length; i++) {
+    if (data[i][0] === word.id) {
+      sheet.deleteRow(i + 1);
+      return jsonResponse({ success: true });
+    }
+  }
+  return jsonResponse({ success: false, error: 'Word not found' });
+}
+
+function logRating(body) {
+  const sheet = getOrCreateSheet(SHEET_NAME_LOG, ['Timestamp','Word','Rating','WasCorrect','HintsUsed','SessionID']);
+  sheet.appendRow([new Date().toISOString(), body.word, body.rating, body.wasCorrect, body.hintsUsed || 0, body.sessionId || '']);
+  return jsonResponse({ success: true });
+}
+
+function logSession(body) {
+  const sheet = getOrCreateSheet(SHEET_NAME_SESSIONS, ['SessionID','Date','TotalWords','Correct','Wrong','Score','Accuracy','Duration','HintsUsed']);
+  sheet.appendRow([body.sessionId || '', new Date().toISOString(), body.total || 0, body.correct || 0, body.wrong || 0, body.score || 0, body.accuracy || 0, body.duration || 0, body.hintsUsed || 0]);
+  return jsonResponse({ success: true });
+}
+
+function updateSettings(body) {
+  const sheet = getOrCreateSheet(SHEET_NAME_SETTINGS, ['Key','Value']);
+  Object.entries(body.settings || {}).forEach(([key, value]) => {
+    const data = sheet.getDataRange().getValues();
+    let found = false;
+    for (let i = 1; i < data.length; i++) {
+      if (data[i][0] === key) {
+        sheet.getRange(i + 1, 2).setValue(value);
+        found = true;
+        break;
+      }
+    }
+    if (!found) sheet.appendRow([key, value]);
+  });
+  return jsonResponse({ success: true });
+}
+
+function jsonResponse(obj) {
+  return ContentService
+    .createTextOutput(JSON.stringify(obj))
+    .setMimeType(ContentService.MimeType.JSON);
+}`;
+}
+
+/* ============================================================
+  DASHBOARD
 ============================================================ */
 function updateDashboard() {
   const total = vocab.length;
@@ -1008,20 +1947,22 @@ function updateDashboard() {
   const mastered = vocab.filter(w => w.proficiency === 3).length;
   const streakData = getStreakData();
   let totalCorrect = 0, totalWrong = 0;
-  vocab.forEach(w => { totalCorrect += (w.correctCount || 0); totalWrong += (w.wrongCount || 0); });
+  vocab.forEach(w => {
+    totalCorrect += (w.correctCount || 0);
+    totalWrong += (w.wrongCount || 0);
+  });
   const totalAnswered = totalCorrect + totalWrong;
   const accuracy = totalAnswered > 0 ? Math.round((totalCorrect / totalAnswered) * 100) : 0;
-
   document.getElementById('statTotal').textContent = total;
   document.getElementById('statDue').textContent = due;
   document.getElementById('statMastered').textContent = mastered;
   document.getElementById('statStreak').textContent = streakData.streak;
   document.getElementById('statAccuracy').textContent = accuracy + '%';
-
-  const levels = [0, 1, 2, 3];
-  const labels = ['🆕 New', '📘 Learning', '🔶 Familiar', '✅ Mastered'];
-  const colors = ['red', 'orange', '', 'green'];
-  const counts = levels.map(l => vocab.filter(w => (w.proficiency || 0) === l).length);
+  // Proficiency bars
+  const levels = [0,1,2,3];
+  const labels = ['🆕 New','📘 Learning','🔶 Familiar','✅ Mastered'];
+  const colors = ['red','orange','','green'];
+  const counts = levels.map(l => vocab.filter(w => (w.proficiency||0) === l).length);
   const barsEl = document.getElementById('proficiencyBars');
   barsEl.innerHTML = '';
   levels.forEach((l, i) => {
@@ -1037,11 +1978,11 @@ function updateDashboard() {
         </div>
       </div>`;
   });
-
+  // Weakest words
   const weakEl = document.getElementById('weakestWords');
-  const weak = vocab.filter(w => (w.reviewCount || 0) > 0)
-    .sort((a, b) => (getAccuracy(a) ?? 100) - (getAccuracy(b) ?? 100))
-    .slice(0, 5);
+  const weak = vocab.filter(w => (w.reviewCount||0) > 0)
+    .sort((a,b) => (getAccuracy(a)??100) - (getAccuracy(b)??100))
+    .slice(0,5);
   if (weak.length === 0) {
     weakEl.innerHTML = `<div class="empty-state"><div class="empty-state-icon">🌱</div><div class="empty-state-text">Practice more to identify weak words</div></div>`;
   } else {
@@ -1049,21 +1990,21 @@ function updateDashboard() {
       const acc = getAccuracy(w);
       return `<div style="display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid var(--border);">
         <div>
-          <div style="font-weight:700;color:var(--text);">${w.word}</div>
-          <div style="font-size:12px;color:var(--text2);">${w.meaning}</div>
+          <div style="font-weight:700;color:var(--text);">${escHtml(w.word)}</div>
+          <div style="font-size:12px;color:var(--text2);">${escHtml(w.meaning)}</div>
         </div>
         <span class="badge badge-danger">${acc !== null ? acc + '%' : 'No data'}</span>
       </div>`;
     }).join('');
   }
-
+  // Recent activity
   const actEl = document.getElementById('recentActivity');
   const log = getActivityLog();
   if (log.length === 0) {
     actEl.innerHTML = `<div class="empty-state"><div class="empty-state-icon">📭</div><div class="empty-state-text">No activity yet. Start practicing!</div></div>`;
   } else {
     actEl.innerHTML = `<div style="display:flex;flex-direction:column;gap:8px;">` +
-      log.slice(0, 8).map(entry => `
+      log.slice(0,8).map(entry => `
         <div style="display:flex;justify-content:space-between;align-items:center;font-size:13px;padding:8px 0;border-bottom:1px solid var(--border);">
           <span>${entry.message}</span>
           <span style="color:var(--text2);white-space:nowrap;margin-left:12px;">${timeAgo(entry.timestamp)}</span>
@@ -1072,14 +2013,18 @@ function updateDashboard() {
 }
 
 /* ============================================================
-   SETTINGS UI
+  SETTINGS UI
 ============================================================ */
 function loadSettingsUI() {
-  document.getElementById('geminiKeyInput').value = localStorage.getItem('vocabCoach_geminiKey') || '';
+  const savedKey = localStorage.getItem('vocabCoach_geminiKey') || '';
+  document.getElementById('geminiKeyInput').value = savedKey;
   document.getElementById('srsForgot').value = srsSettings.forgot;
   document.getElementById('srsHard').value = srsSettings.hard;
   document.getElementById('srsGood').value = srsSettings.good;
   document.getElementById('srsEasy').value = srsSettings.easy;
+  document.getElementById('sheetsUrlInput').value = sheetsUrl;
+  document.getElementById('pronounceSpeedSetting').value = currentPronounceRate;
+  document.getElementById('autoPronounce').value = autoPronounce ? 'on' : 'off';
 }
 function toggleKeyVisibility() {
   const input = document.getElementById('geminiKeyInput');
@@ -1115,121 +2060,51 @@ function resetSrsSettings() {
 }
 
 /* ============================================================
-   DATA EXPORT / IMPORT
+  ESCAPE HTML
 ============================================================ */
-function exportData(format) {
-  if (vocab.length === 0) { showToast('No words to export', 'warning'); return; }
-  if (format === 'json') {
-    const blob = new Blob([JSON.stringify(vocab, null, 2)], { type: 'application/json' });
-    downloadBlob(blob, `vocabcoach_${todayStr()}.json`);
-    showToast(`✅ Exported ${vocab.length} words as JSON`, 'success');
-  } else if (format === 'csv') {
-    const headers = ['word','ipa','meaning','pos','definition','examples','collocations','proficiency','reviewCount','correctCount','wrongCount','dateAdded','nextReview'];
-    const rows = vocab.map(w => [
-      w.word, w.ipa, w.meaning, w.pos, w.definition,
-      (w.examples || []).join(' | '),
-      (w.collocations || []).join(' | '),
-      getProficiencyLabel(w.proficiency),
-      w.reviewCount, w.correctCount, w.wrongCount,
-      w.dateAdded, w.nextReview
-    ].map(v => `"${String(v || '').replace(/"/g, '""')}"`).join(','));
-    const blob = new Blob([[headers.join(','), ...rows].join('\n')], { type: 'text/csv' });
-    downloadBlob(blob, `vocabcoach_${todayStr()}.csv`);
-    showToast(`✅ Exported ${vocab.length} words as CSV`, 'success');
-  }
-}
-function downloadBlob(blob, filename) {
-  const a = document.createElement('a');
-  a.href = URL.createObjectURL(blob);
-  a.download = filename;
-  a.click();
-  URL.revokeObjectURL(a.href);
-}
-function importData(event) {
-  const file = event.target.files[0];
-  if (!file) return;
-  const reader = new FileReader();
-  reader.onload = function(e) {
-    try {
-      const data = JSON.parse(e.target.result);
-      if (!Array.isArray(data)) throw new Error('Invalid format');
-      const valid = data.filter(w => w.word && w.meaning);
-      if (valid.length === 0) throw new Error('No valid words found');
-      let added = 0;
-      valid.forEach(w => {
-        if (!vocab.find(v => v.word.toLowerCase() === w.word.toLowerCase())) {
-          vocab.push({ ...createWord(w), ...w });
-          added++;
-        }
-      });
-      saveVocab(); renderVocabList(); updateDashboard();
-      showToast(`✅ Imported ${added} new words (${valid.length - added} duplicates skipped)`, 'success');
-    } catch(err) { showToast('Import failed: ' + err.message, 'error'); }
-    event.target.value = '';
-  };
-  reader.readAsText(file);
-}
-function confirmClearAll() {
-  if (!confirm('⚠️ This will permanently delete ALL your vocabulary data. Are you sure?')) return;
-  if (!confirm('Last chance — delete everything?')) return;
-  vocab = [];
-  saveVocab();
-  localStorage.removeItem('vocabCoach_activity');
-  localStorage.removeItem('vocabCoach_streak');
-  renderVocabList(); updateDashboard();
-  showToast('All data cleared', 'warning');
+function escHtml(str) {
+  if (!str) return '';
+  return String(str)
+    .replace(/&/g,'&amp;').replace(/</g,'&lt;')
+    .replace(/>/g,'&gt;').replace(/"/g,'&quot;')
+    .replace(/'/g,'&#39;');
 }
 
 /* ============================================================
-   YOUGLISH
-============================================================ */
-function loadYouglish() {
-  const word = document.getElementById('youglishWord').value.trim();
-  const lang = document.getElementById('youglishLang').value;
-  if (!word) { showToast('Please enter a word first', 'warning'); return; }
-  document.getElementById('youglishFrame').src = `https://youglish.com/pronounce/${encodeURIComponent(word)}/${lang}/us?ngram=1`;
-}
-
-/* ============================================================
-   VOCAB LIST RENDERING
+  VOCAB LIST RENDERING
 ============================================================ */
 function renderVocabList() {
   const search = (document.getElementById('vocabSearch').value || '').toLowerCase().trim();
   const filter = document.getElementById('vocabFilter').value;
   const sort = document.getElementById('vocabSort').value;
   let list = [...vocab];
-
   if (filter === 'due') list = list.filter(w => isDue(w));
   if (filter === 'mastered') list = list.filter(w => w.proficiency === 3);
   if (filter === 'learning') list = list.filter(w => w.proficiency === 1 || w.proficiency === 2);
   if (filter === 'new') list = list.filter(w => w.proficiency === 0);
-
   if (search) {
     list = list.filter(w =>
       w.word.toLowerCase().includes(search) ||
-      (w.meaning || '').toLowerCase().includes(search) ||
-      (w.definition || '').toLowerCase().includes(search) ||
-      (w.collocations || []).some(c => c.toLowerCase().includes(search))
+      (w.meaning||'').toLowerCase().includes(search) ||
+      (w.definition||'').toLowerCase().includes(search) ||
+      (w.collocations||[]).some(c => c.toLowerCase().includes(search))
     );
   }
-
-  if (sort === 'newest') list.sort((a, b) => b.dateAdded.localeCompare(a.dateAdded));
-  if (sort === 'oldest') list.sort((a, b) => a.dateAdded.localeCompare(b.dateAdded));
-  if (sort === 'az') list.sort((a, b) => a.word.localeCompare(b.word));
-  if (sort === 'za') list.sort((a, b) => b.word.localeCompare(a.word));
-  if (sort === 'due') list.sort((a, b) => a.nextReview.localeCompare(b.nextReview));
-  if (sort === 'weak') list.sort((a, b) => (getAccuracy(a) ?? 101) - (getAccuracy(b) ?? 101));
-
+  if (sort === 'newest') list.sort((a,b) => b.dateAdded.localeCompare(a.dateAdded));
+  if (sort === 'oldest') list.sort((a,b) => a.dateAdded.localeCompare(b.dateAdded));
+  if (sort === 'az') list.sort((a,b) => a.word.localeCompare(b.word));
+  if (sort === 'za') list.sort((a,b) => b.word.localeCompare(a.word));
+  if (sort === 'due') list.sort((a,b) => a.nextReview.localeCompare(b.nextReview));
+  if (sort === 'weak') list.sort((a,b) => (getAccuracy(a)??101) - (getAccuracy(b)??101));
   const container = document.getElementById('vocabList');
   if (list.length === 0) {
     container.innerHTML = `<div class="empty-state">
       <div class="empty-state-icon">${search ? '🔍' : '📭'}</div>
       <div class="empty-state-title">${search ? 'No results found' : 'No words yet'}</div>
-      <div class="empty-state-text">${search ? 'Try a different search term' : 'Click "Add Word" to start building your vocabulary!'}</div>
+      <div class="empty-state-text">${search ? 'Try a different search term' : 'Click "Add Word" to start!'}</div>
     </div>`;
     return;
   }
-
   container.innerHTML = list.map(w => {
     const due = isDue(w);
     const daysLeft = daysUntilReview(w);
@@ -1250,40 +2125,28 @@ function renderVocabList() {
           </div>
           <div class="word-item-meta">
             ${w.meaning ? `<span style="margin-right:12px;">🔤 ${escHtml(w.meaning)}</span>` : ''}
-            ${w.pos ? `<span style="margin-right:12px; text-transform:capitalize;">📝 ${escHtml(w.pos)}</span>` : ''}
+            ${w.pos ? `<span style="margin-right:12px;">📝 ${escHtml(w.pos)}</span>` : ''}
             ${acc !== null ? `<span>🎯 ${acc}% accuracy</span>` : ''}
           </div>
           ${w.collocations && w.collocations.length > 0 ? `
             <div style="margin-top:6px; display:flex; flex-wrap:wrap; gap:4px;">
-              ${w.collocations.slice(0, 4).map(c => `<span class="tag" style="font-size:11px; padding:2px 8px;">${escHtml(c)}</span>`).join('')}
-              ${w.collocations.length > 4 ? `<span style="font-size:11px; color:var(--text2);">+${w.collocations.length - 4} more</span>` : ''}
+              ${w.collocations.slice(0,4).map(c => `<span class="tag" style="font-size:11px;padding:2px 8px;">${escHtml(c)}</span>`).join('')}
+              ${w.collocations.length > 4 ? `<span style="font-size:11px;color:var(--text2);">+${w.collocations.length-4} more</span>` : ''}
             </div>` : ''}
         </div>
         <div class="word-item-actions">
-          <button class="btn btn-ghost btn-sm" onclick="viewWord('${w.id}')" title="View Details">👁</button>
-          <button class="btn btn-ghost btn-sm" onclick="practiceOneWord('${w.id}')" title="Quick Practice">🧠</button>
+          <button class="btn-pronounce" onclick="pronounceWord('${escHtml(w.word)}', currentPronounceRate)" title="Pronounce">🔊</button>
+          <button class="btn btn-ghost btn-sm" onclick="viewWord('${w.id}')" title="View">👁</button>
+          <button class="btn btn-ghost btn-sm" onclick="practiceOneWord('${w.id}')" title="Practice">🧠</button>
           <button class="btn btn-ghost btn-sm" onclick="openEditWordModal('${w.id}')" title="Edit">✏️</button>
-          <button class="btn btn-danger btn-sm" onclick="deleteWord('${w.id}')" title="Delete">🗑️</button>
+          <button class="btn btn-danger btn-sm" onclick="deleteWord('${w.id}')" title="Delete">🗑</button>
         </div>
       </div>`;
   }).join('');
 }
 
 /* ============================================================
-   ESCAPE HTML
-============================================================ */
-function escHtml(str) {
-  if (!str) return '';
-  return String(str)
-    .replace(/&/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;')
-    .replace(/"/g, '&quot;')
-    .replace(/'/g, '&#39;');
-}
-
-/* ============================================================
-   VIEW WORD MODAL
+  VIEW WORD MODAL
 ============================================================ */
 function viewWord(id) {
   const w = vocab.find(v => v.id === id);
@@ -1297,552 +2160,6 @@ function viewWord(id) {
     <div style="margin-bottom:20px;">
       <div style="display:flex; align-items:flex-start; justify-content:space-between; flex-wrap:wrap; gap:10px;">
         <div>
-          <div style="font-size:32px; font-weight:900; color:var(--primary); font-family:'Courier New',monospace;">${escHtml(w.word)}</div>
-          ${w.ipa ? `<div style="font-size:16px; color:var(--text2); margin-top:4px;">${escHtml(w.ipa)}</div>` : ''}
-        </div>
-        <div style="display:flex; flex-direction:column; gap:6px; align-items:flex-end;">
-          <span class="badge ${profBadge}">${profLabel}</span>
-          <span class="badge ${due ? 'badge-danger' : 'badge-info'}">${due ? '🔥 Due Now' : '📅 Next: ' + formatDate(w.nextReview)}</span>
-        </div>
-      </div>
-    </div>
-    <hr class="divider"/>
-    ${w.meaning ? `<div style="margin-bottom:14px;"><div class="form-label" style="margin-bottom:4px;">🔤 Arabic Meaning</div><div style="font-size:18px; font-weight:700; color:var(--text); direction:rtl; text-align:right;">${escHtml(w.meaning)}</div></div>` : ''}
-    ${w.pos ? `<div style="margin-bottom:14px;"><div class="form-label" style="margin-bottom:4px;">📝 Part of Speech</div><div style="text-transform:capitalize; font-weight:600;">${escHtml(w.pos)}</div></div>` : ''}
-    ${w.definition ? `<div style="margin-bottom:14px;"><div class="form-label" style="margin-bottom:4px;">📖 English Definition</div><div style="color:var(--text); line-height:1.6;">${escHtml(w.definition)}</div></div>` : ''}
-    ${w.examples && w.examples.length > 0 ? `
-      <div style="margin-bottom:14px;">
-        <div class="form-label" style="margin-bottom:6px;">💬 Example Sentences</div>
-        ${w.examples.map(ex => `<div style="background:var(--surface2); border-left:3px solid var(--primary); padding:10px 14px; border-radius:0 var(--radius-sm) var(--radius-sm) 0; margin-bottom:6px; font-style:italic; color:var(--text); line-height:1.5;">"${escHtml(ex)}"</div>`).join('')}
-      </div>` : ''}
-    ${w.collocations && w.collocations.length > 0 ? `
-      <div style="margin-bottom:14px;">
-        <div class="form-label" style="margin-bottom:6px;">🔗 Collocations</div>
-        <div class="tag-list">${w.collocations.map(c => `<span class="tag">${escHtml(c)}</span>`).join('')}</div>
-      </div>` : ''}
-    ${w.mnemonic ? `
-      <div style="margin-bottom:14px;">
-        <div class="form-label" style="margin-bottom:4px;">🧠 Memory Tip</div>
-        <div style="background:var(--warning-light); border:1.5px solid var(--warning); border-radius:var(--radius-sm); padding:12px; color:var(--text); line-height:1.6;">💡 ${escHtml(w.mnemonic)}</div>
-      </div>` : ''}
-    <hr class="divider"/>
-    <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(110px,1fr)); gap:12px;">
-      <div style="text-align:center; background:var(--surface2); border-radius:var(--radius-sm); padding:12px; border:1.5px solid var(--border);">
-        <div style="font-size:22px; font-weight:800; color:var(--primary);">${w.reviewCount || 0}</div>
-        <div style="font-size:12px; color:var(--text2);">Reviews</div>
-      </div>
-      <div style="text-align:center; background:var(--surface2); border-radius:var(--radius-sm); padding:12px; border:1.5px solid var(--border);">
-        <div style="font-size:22px; font-weight:800; color:var(--success);">${w.correctCount || 0}</div>
-        <div style="font-size:12px; color:var(--text2);">Correct</div>
-      </div>
-      <div style="text-align:center; background:var(--surface2); border-radius:var(--radius-sm); padding:12px; border:1.5px solid var(--border);">
-        <div style="font-size:22px; font-weight:800; color:var(--danger);">${w.wrongCount || 0}</div>
-        <div style="font-size:12px; color:var(--text2);">Wrong</div>
-      </div>
-      <div style="text-align:center; background:var(--surface2); border-radius:var(--radius-sm); padding:12px; border:1.5px solid var(--border);">
-        <div style="font-size:22px; font-weight:800; color:var(--warning);">${acc !== null ? acc + '%' : '—'}</div>
-        <div style="font-size:12px; color:var(--text2);">Accuracy</div>
-      </div>
-      <div style="text-align:center; background:var(--surface2); border-radius:var(--radius-sm); padding:12px; border:1.5px solid var(--border);">
-        <div style="font-size:22px; font-weight:800; color:var(--info);">${w.hintsUsed || 0}</div>
-        <div style="font-size:12px; color:var(--text2);">Hints Used</div>
-      </div>
-    </div>
-    <div style="margin-top:12px; font-size:12px; color:var(--text2); text-align:right;">Added: ${formatDate(w.dateAdded)}</div>`;
-  document.getElementById('viewModal').classList.add('open');
-}
-function closeViewModal() {
-  document.getElementById('viewModal').classList.remove('open');
-  viewingWordId = null;
-}
-function editFromView() {
-  const id = viewingWordId;
-  closeViewModal();
-  if (id) openEditWordModal(id);
-}
-
-/* ============================================================
-   ADD / EDIT WORD MODAL
-============================================================ */
-function openAddWordModal() {
-  editingWordId = null;
-  currentCollocations = [];
-  document.getElementById('wordModalTitle').textContent = '➕ Add New Word';
-  clearWordForm();
-  document.getElementById('wordModal').classList.add('open');
-  document.getElementById('lookupStatus').style.display = 'none';
-  setTimeout(() => document.getElementById('mWord').focus(), 100);
-}
-function openEditWordModal(id) {
-  const w = vocab.find(v => v.id === id);
-  if (!w) return;
-  editingWordId = id;
-  currentCollocations = [...(w.collocations || [])];
-  document.getElementById('wordModalTitle').textContent = '✏️ Edit Word';
-  document.getElementById('mWord').value = w.word || '';
-  document.getElementById('mIpa').value = w.ipa || '';
-  document.getElementById('mMeaning').value = w.meaning || '';
-  document.getElementById('mPos').value = w.pos || '';
-  document.getElementById('mDefinition').value = w.definition || '';
-  document.getElementById('mExamples').value = (w.examples || []).join('\n');
-  document.getElementById('mMnemonic').value = w.mnemonic || '';
-  renderCollocTags();
-  document.getElementById('lookupStatus').style.display = 'none';
-  document.getElementById('wordModal').classList.add('open');
-}
-function closeWordModal() {
-  document.getElementById('wordModal').classList.remove('open');
-  editingWordId = null;
-  currentCollocations = [];
-}
-function clearWordForm() {
-  ['mWord','mIpa','mMeaning','mDefinition','mExamples','mMnemonic','mCollocInput'].forEach(id => {
-    const el = document.getElementById(id);
-    if (el) el.value = '';
-  });
-  document.getElementById('mPos').value = '';
-  currentCollocations = [];
-  renderCollocTags();
-}
-
-/* ============================================================
-   COLLOCATION TAGS
-============================================================ */
-function addCollocation(event) {
-  if (event.key !== 'Enter' && event.type !== 'click') return;
-  const input = document.getElementById('mCollocInput');
-  const val = input.value.trim();
-  if (!val) return;
-  if (currentCollocations.includes(val)) { showToast('Collocation already added', 'warning'); input.value = ''; return; }
-  currentCollocations.push(val);
-  input.value = '';
-  renderCollocTags();
-}
-function removeCollocation(index) { currentCollocations.splice(index, 1); renderCollocTags(); }
-function renderCollocTags() {
-  const container = document.getElementById('mCollocTags');
-  if (!container) return;
-  container.innerHTML = currentCollocations.map((c, i) => `
-    <span class="tag">${escHtml(c)}<span class="tag-remove" onclick="removeCollocation(${i})">×</span></span>`).join('');
-}
-
-/* ============================================================
-   SAVE WORD
-============================================================ */
-function saveWord() {
-  const word = document.getElementById('mWord').value.trim();
-  const meaning = document.getElementById('mMeaning').value.trim();
-  if (!word) { showToast('⚠️ Please enter a word', 'warning'); document.getElementById('mWord').focus(); return; }
-  if (!meaning) { showToast('⚠️ Please enter the Arabic meaning', 'warning'); document.getElementById('mMeaning').focus(); return; }
-  const examples = document.getElementById('mExamples').value.split('\n').map(e => e.trim()).filter(e => e.length > 0);
-  const wordData = {
-    word,
-    ipa: document.getElementById('mIpa').value.trim(),
-    meaning,
-    pos: document.getElementById('mPos').value.trim(),
-    definition: document.getElementById('mDefinition').value.trim(),
-    examples,
-    collocations: [...currentCollocations],
-    mnemonic: document.getElementById('mMnemonic').value.trim()
-  };
-  if (editingWordId) {
-    const idx = vocab.findIndex(v => v.id === editingWordId);
-    if (idx !== -1) { vocab[idx] = { ...vocab[idx], ...wordData }; showToast(`✅ "${word}" updated successfully!`, 'success'); saveActivity({ message: `✏️ Updated word: "${word}"` }); }
-  } else {
-    if (vocab.find(v => v.word.toLowerCase() === word.toLowerCase())) { showToast(`⚠️ "${word}" already exists in your library`, 'warning'); return; }
-    vocab.push(createWord(wordData));
-    showToast(`✅ "${word}" added to your library!`, 'success');
-    saveActivity({ message: `➕ Added new word: "${word}"` });
-  }
-  saveVocab(); closeWordModal(); renderVocabList(); updateDashboard();
-}
-
-/* ============================================================
-   DELETE WORD
-============================================================ */
-function deleteWord(id) {
-  const w = vocab.find(v => v.id === id);
-  if (!w) return;
-  if (!confirm(`Delete "${w.word}" from your library?`)) return;
-  vocab = vocab.filter(v => v.id !== id);
-  saveVocab(); renderVocabList(); updateDashboard();
-  showToast(`🗑️ "${w.word}" deleted`, 'info');
-  saveActivity({ message: `🗑️ Deleted word: "${w.word}"` });
-}
-
-/* ============================================================
-   QUICK PRACTICE
-============================================================ */
-function practiceOneWord(id) {
-  const w = vocab.find(v => v.id === id);
-  if (!w) return;
-  practiceSession = { words: [w], index: 0, score: 0, hintsUsed: 0, correct: 0, wrong: 0 };
-  showTab('practice');
-  document.getElementById('practiceSetupCard').style.display = 'none';
-  document.getElementById('practiceCompleteCard').style.display = 'none';
-  document.getElementById('practiceSessionCard').style.display = 'block';
-  loadPracticeWord();
-}
-
-/* ============================================================
-   WORD INPUT AUTO-TRIGGER
-============================================================ */
-let wordInputTimer = null;
-function onWordInput(value) {
-  clearTimeout(wordInputTimer);
-  if (value.trim().length < 2) return;
-  wordInputTimer = setTimeout(function() {
-    const key = localStorage.getItem('vocabCoach_geminiKey');
-    if (key) triggerLookup();
-  }, 800);
-}
-</script>
-
-<script>
-/* ============================================================
-   GEMINI — SELF-HEALING MODEL SELECTOR
-============================================================ */
-const GEMINI_MODEL_BLACKLIST = ['tts','vision','image','embedding','embed','aqa','retrieval','answer','bison','gecko','palm','code','preview','exp','it-'];
-const GEMINI_FALLBACK_MODELS = ['gemini-2.0-flash-lite','gemini-2.0-flash','gemini-1.5-flash','gemini-1.5-flash-8b'];
-
-function isModelAllowed(modelName) {
-  const name = modelName.toLowerCase();
-  return !GEMINI_MODEL_BLACKLIST.some(bad => name.includes(bad));
-}
-function scoreModel(modelName) {
-  const name = modelName.toLowerCase();
-  let score = 0;
-  if (name.includes('flash')) score += 30;
-  if (name.includes('lite')) score += 10;
-  if (name.includes('1.5')) score += 5;
-  if (name.includes('2.0')) score += 15;
-  if (name.includes('2.5')) score += 20;
-  if (name.includes('pro')) score -= 10;
-  if (name.includes('preview')) score -= 20;
-  if (name.includes('exp')) score -= 25;
-  return score;
-}
-async function fetchAvailableGeminiModels(apiKey) {
-  try {
-    const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models?key=${apiKey}`);
-    if (!res.ok) return null;
-    const data = await res.json();
-    if (!data.models) return null;
-    const allowed = data.models.map(m => m.name.replace('models/', '')).filter(isModelAllowed).sort((a, b) => scoreModel(b) - scoreModel(a));
-    return allowed.length > 0 ? allowed : null;
-  } catch(e) { return null; }
-}
-
-/* ============================================================
-   GEMINI — CORE CALLER
-============================================================ */
-async function callGemini(apiKey, prompt, logId) {
-  const log = logId ? (msg, type) => logLine(logId, msg, type) : () => {};
-  log('Fetching available Gemini models...', 'info');
-  let models = await fetchAvailableGeminiModels(apiKey);
-  if (models) { log(`Found ${models.length} compatible models. Top: ${models[0]}`, 'ok'); }
-  else { log('Could not fetch model list — using built-in fallbacks', 'warn'); models = [...GEMINI_FALLBACK_MODELS]; }
-
-  for (let i = 0; i < models.length; i++) {
-    const model = models[i];
-    log(`Trying model [${i + 1}/${models.length}]: ${model} ...`, 'info');
-    try {
-      const controller = new AbortController();
-      const timer = setTimeout(() => controller.abort(), 15000);
-      const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        signal: controller.signal,
-        body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }], generationConfig: { temperature: 0.3, maxOutputTokens: 1024 } })
-      });
-      clearTimeout(timer);
-      const data = await res.json();
-      if (!res.ok) {
-        const errMsg = data?.error?.message || `HTTP ${res.status}`;
-        if (errMsg.includes('quota') || errMsg.includes('QUOTA') || errMsg.includes('deprecated') || errMsg.includes('no longer available') || errMsg.includes('not found') || errMsg.includes('404') || res.status === 429 || res.status === 404) {
-          log(` ↳ Skipping: ${errMsg.slice(0, 80)}`, 'warn'); continue;
-        }
-        log(` ↳ Error: ${errMsg.slice(0, 80)}`, 'err'); continue;
-      }
-      const text = data?.candidates?.[0]?.content?.parts?.[0]?.text;
-      if (!text) { log(` ↳ Empty response from ${model}`, 'warn'); continue; }
-      log(` ↳ ✅ Success with ${model}`, 'ok');
-      return { text, model };
-    } catch(err) {
-      if (err.name === 'AbortError') { log(` ↳ Timeout on ${model}`, 'warn'); }
-      else { log(` ↳ Network error: ${err.message}`, 'warn'); }
-      continue;
-    }
-  }
-  throw new Error('All Gemini models failed or exhausted quota.');
-}
-
-/* ============================================================
-   GEMINI — WORD LOOKUP PROMPT
-============================================================ */
-function buildLookupPrompt(word) {
-  return `You are an expert English-Arabic vocabulary assistant.
-For the English word: "${word}"
-Return ONLY a valid JSON object with exactly these fields (no markdown, no code blocks, just raw JSON):
-{
-  "word": "${word}",
-  "ipa": "IPA pronunciation string",
-  "pos": "one of: adjective, noun, verb, adverb, phrase, idiom, other",
-  "meaning": "Arabic translation (1-4 words)",
-  "definition": "Clear English definition in 1-2 sentences",
-  "examples": ["Natural example sentence 1","Natural example sentence 2","Natural example sentence 3"],
-  "collocations": ["common collocation 1","common collocation 2","common collocation 3","common collocation 4"],
-  "mnemonic": "A creative memory tip or word association to remember this word"
-}
-Rules:
-- The Arabic meaning must be accurate Modern Standard Arabic
-- Examples must be natural, varied sentences showing real usage
-- Collocations must be the most common word combinations
-- Mnemonic should be creative, memorable, and in English
-- Return ONLY the JSON object, nothing else`.trim();
-}
-
-/* ============================================================
-   FALLBACK LOOKUP
-============================================================ */
-async function lookupWithFallback(word, logId) {
-  const log = logId ? (msg, type) => logLine(logId, msg, type) : () => {};
-  const result = {};
-  log('Trying Datamuse API for definitions...', 'info');
-  try {
-    const controller = new AbortController();
-    const timer = setTimeout(() => controller.abort(), 8000);
-    const res = await fetch(`https://api.datamuse.com/words?sp=${encodeURIComponent(word)}&md=dpsr&max=1`, { signal: controller.signal });
-    clearTimeout(timer);
-    if (res.ok) {
-      const data = await res.json();
-      if (data && data.length > 0) {
-        const entry = data[0];
-        if (entry.defs && entry.defs.length > 0) {
-          const defParts = entry.defs[0].split('\t');
-          result.pos = defParts[0] || '';
-          result.definition = defParts[1] || '';
-          log(` ↳ ✅ Definition found: "${result.definition.slice(0, 60)}..."`, 'ok');
-        }
-        if (entry.tags) {
-          const posTag = entry.tags.find(t => ['adj','n','v','adv'].includes(t));
-          if (posTag) result.pos = { adj: 'adjective', n: 'noun', v: 'verb', adv: 'adverb' }[posTag] || posTag;
-        }
-      } else { log(' ↳ No results from Datamuse', 'warn'); }
-    }
-  } catch(e) { log(` ↳ Datamuse failed: ${e.message}`, 'warn'); }
-
-  log('Fetching collocations from Datamuse...', 'info');
-  try {
-    const controller2 = new AbortController();
-    const timer2 = setTimeout(() => controller2.abort(), 6000);
-    const res2 = await fetch(`https://api.datamuse.com/words?lc=${encodeURIComponent(word)}&max=6`, { signal: controller2.signal });
-    clearTimeout(timer2);
-    if (res2.ok) {
-      const data2 = await res2.json();
-      if (data2 && data2.length > 0) {
-        result.collocations = data2.slice(0, 5).map(w => `${word} ${w.word}`);
-        log(` ↳ ✅ Found ${result.collocations.length} collocations`, 'ok');
-      }
-    }
-  } catch(e) { log(` ↳ Collocation fetch failed: ${e.message}`, 'warn'); }
-
-  log('Fetching Arabic translation from MyMemory...', 'info');
-  try {
-    const controller3 = new AbortController();
-    const timer3 = setTimeout(() => controller3.abort(), 8000);
-    const res3 = await fetch(`https://api.mymemory.translated.net/get?q=${encodeURIComponent(word)}&langpair=en|ar`, { signal: controller3.signal });
-    clearTimeout(timer3);
-    if (res3.ok) {
-      const data3 = await res3.json();
-      const translation = data3?.responseData?.translatedText;
-      if (translation && translation !== word) { result.meaning = translation; log(` ↳ ✅ Arabic translation: "${translation}"`, 'ok'); }
-      else { log(' ↳ No Arabic translation found', 'warn'); }
-    }
-  } catch(e) { log(` ↳ MyMemory failed: ${e.message}`, 'warn'); }
-
-  return result;
-}
-
-/* ============================================================
-   MAIN LOOKUP TRIGGER
-============================================================ */
-async function triggerLookup() {
-  const word = document.getElementById('mWord').value.trim();
-  if (!word) { showToast('Please enter a word first', 'warning'); return; }
-  const apiKey = localStorage.getItem('vocabCoach_geminiKey') || '';
-  const lookupBtn = document.getElementById('lookupBtn');
-  const statusDiv = document.getElementById('lookupStatus');
-  const logId = 'lookupLog';
-  statusDiv.style.display = 'block';
-  clearLog(logId);
-  lookupBtn.disabled = true;
-  lookupBtn.textContent = '⏳ Looking up...';
-  logLine(logId, `Starting lookup for: "${word}"`, 'info');
-
-  let result = {};
-  let usedGemini = false;
-  if (apiKey) {
-    logLine(logId, '🤖 Gemini API key found — attempting AI lookup...', 'info');
-    try {
-      const { text, model } = await callGemini(apiKey, buildLookupPrompt(word), logId);
-      logLine(logId, 'Parsing Gemini response...', 'info');
-      const cleaned = text.replace(/```json/gi, '').replace(/```/g, '').trim();
-      result = JSON.parse(cleaned);
-      usedGemini = true;
-      logLine(logId, `✅ AI lookup complete using ${model}`, 'ok');
-    } catch(err) { logLine(logId, `Gemini failed: ${err.message} — falling back to free APIs`, 'warn'); }
-  } else { logLine(logId, 'No Gemini key configured — using free APIs', 'warn'); }
-
-  if (!usedGemini) {
-    logLine(logId, '🔄 Running fallback lookup (Datamuse + MyMemory)...', 'info');
-    try { result = await lookupWithFallback(word, logId); }
-    catch(err) { logLine(logId, `Fallback also failed: ${err.message}`, 'err'); }
-  }
-
-  logLine(logId, 'Populating form fields...', 'info');
-  if (result.ipa) document.getElementById('mIpa').value = result.ipa;
-  if (result.meaning) document.getElementById('mMeaning').value = result.meaning;
-  if (result.pos) document.getElementById('mPos').value = result.pos;
-  if (result.definition) document.getElementById('mDefinition').value = result.definition;
-  if (result.mnemonic) document.getElementById('mMnemonic').value = result.mnemonic;
-  if (result.examples && result.examples.length > 0) {
-    document.getElementById('mExamples').value = result.examples.filter(e => e && e.trim()).join('\n');
-  }
-  if (result.collocations && result.collocations.length > 0) {
-    result.collocations.filter(c => c && c.trim()).forEach(c => {
-      if (!currentCollocations.includes(c.trim())) currentCollocations.push(c.trim());
-    });
-    renderCollocTags();
-  }
-
-  const filled = Object.values(result).filter(v => v && (typeof v === 'string' ? v.trim() : v.length > 0)).length;
-  if (filled > 0) { logLine(logId, `✅ Done! Filled ${filled} fields. Review and save.`, 'ok'); showToast(`✅ Lookup complete for "${word}"`, 'success'); }
-  else { logLine(logId, '⚠️ No data could be retrieved. Fill fields manually.', 'warn'); showToast(`Could not find data for "${word}"`, 'warning'); }
-  lookupBtn.disabled = false;
-  lookupBtn.textContent = '🤖 AI Lookup';
-}
-
-/* ============================================================
-   API KEY TEST
-============================================================ */
-async function testApiKey() {
-  const key = document.getElementById('geminiKeyInput').value.trim();
-  if (!key) { showToast('Please enter an API key to test', 'warning'); return; }
-  const area = document.getElementById('keyTestArea');
-  const logId = 'keyTestLog';
-  area.style.display = 'block';
-  clearLog(logId);
-  logLine(logId, '🔑 Starting API key test...', 'info');
-  logLine(logId, `Key preview: ${key.slice(0, 8)}${'*'.repeat(Math.min(20, key.length - 8))}`, 'info');
-  logLine(logId, 'Fetching model list from Google...', 'info');
-  let models = null;
-  try {
-    const controller = new AbortController();
-    const timer = setTimeout(() => controller.abort(), 10000);
-    const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models?key=${key}`, { signal: controller.signal });
-    clearTimeout(timer);
-    if (res.status === 400 || res.status === 401 || res.status === 403) {
-      const data = await res.json();
-      logLine(logId, `❌ Key rejected: ${data?.error?.message || 'Invalid API key'}`, 'err');
-      showToast('❌ Invalid API key', 'error'); return;
-    }
-    if (!res.ok) { logLine(logId, `❌ HTTP ${res.status} — could not reach Google API`, 'err'); showToast('❌ Could not reach Google API', 'error'); return; }
-    const data = await res.json();
-    models = (data.models || []).map(m => m.name.replace('models/', '')).filter(isModelAllowed).sort((a, b) => scoreModel(b) - scoreModel(a));
-    logLine(logId, `✅ Key accepted! Found ${models.length} compatible models`, 'ok');
-    if (models.length > 0) logLine(logId, `Top models: ${models.slice(0, 3).join(', ')}`, 'info');
-  } catch(e) { logLine(logId, `❌ Network error: ${e.message}`, 'err'); showToast('❌ Network error during key test', 'error'); return; }
-
-  logLine(logId, 'Testing a real generation call...', 'info');
-  const testModels = models && models.length > 0 ? models.slice(0, 3) : GEMINI_FALLBACK_MODELS;
-  let generationOk = false;
-  for (const model of testModels) {
-    logLine(logId, ` Trying ${model}...`, 'info');
-    try {
-      const controller = new AbortController();
-      const timer = setTimeout(() => controller.abort(), 12000);
-      const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${key}`, {
-        method: 'POST', headers: { 'Content-Type': 'application/json' }, signal: controller.signal,
-        body: JSON.stringify({ contents: [{ parts: [{ text: 'Reply with exactly one word: OK' }] }], generationConfig: { maxOutputTokens: 5 } })
-      });
-      clearTimeout(timer);
-      const data = await res.json();
-      if (!res.ok) {
-        const msg = data?.error?.message || `HTTP ${res.status}`;
-        if (msg.includes('quota') || res.status === 429) { logLine(logId, ` ↳ Quota exceeded on ${model} — trying next`, 'warn'); continue; }
-        logLine(logId, ` ↳ Failed: ${msg.slice(0, 80)}`, 'warn'); continue;
-      }
-      const text = data?.candidates?.[0]?.content?.parts?.[0]?.text;
-      if (text) { logLine(logId, ` ↳ ✅ ${model} responded: "${text.trim()}"`, 'ok'); generationOk = true; break; }
-    } catch(e) { logLine(logId, ` ↳ Error on ${model}: ${e.message}`, 'warn'); }
-  }
-  if (generationOk) { logLine(logId, '✅ API key is fully working! You can save it now.', 'ok'); showToast('✅ API key is valid and working!', 'success'); }
-  else { logLine(logId, '⚠️ Key is valid but all tested models hit quota limits.', 'warn'); logLine(logId, 'The key will still work — quota resets daily.', 'info'); showToast('⚠️ Key valid but quota may be limited', 'warning'); }
-}
-
-/* ============================================================
-   CONNECTION DIAGNOSTICS
-============================================================ */
-async function runConnectionTest() {
-  const area = document.getElementById('connTestArea');
-  const logId = 'connTestLog';
-  area.style.display = 'block';
-  clearLog(logId);
-  logLine(logId, '📡 Starting connection diagnostics...', 'info');
-  const endpoints = [
-    { name: 'Google Gemini API', url: 'https://generativelanguage.googleapis.com/v1beta/models', note: 'Required for AI lookup' },
-    { name: 'Datamuse API', url: 'https://api.datamuse.com/words?sp=test&max=1', note: 'Fallback definitions' },
-    { name: 'MyMemory Translation', url: 'https://api.mymemory.translated.net/get?q=test&langpair=en|ar', note: 'Arabic translation fallback' },
-    { name: 'YouGlish', url: 'https://youglish.com', note: 'Pronunciation videos' }
-  ];
-  for (const ep of endpoints) {
-    logLine(logId, `Testing: ${ep.name} (${ep.note})...`, 'info');
-    const start = Date.now();
-    try {
-      const controller = new AbortController();
-      const timer = setTimeout(() => controller.abort(), 8000);
-      const res = await fetch(ep.url, { method: 'GET', mode: 'cors', signal: controller.signal });
-      clearTimeout(timer);
-      const ms = Date.now() - start;
-      if (res.ok || res.status === 400 || res.status === 401 || res.status === 403) { logLine(logId, ` ↳ ✅ Reachable (${ms}ms) — HTTP ${res.status}`, 'ok'); }
-      else { logLine(logId, ` ↳ ⚠️ Responded with HTTP ${res.status} (${ms}ms)`, 'warn'); }
-    } catch(e) {
-      const ms = Date.now() - start;
-      if (e.name === 'AbortError') { logLine(logId, ` ↳ ❌ Timeout after ${ms}ms`, 'err'); }
-      else if (e.message.includes('Failed to fetch') || e.message.includes('NetworkError')) { logLine(logId, ` ↳ ❌ Blocked or unreachable (CORS / network)`, 'err'); }
-      else { logLine(logId, ` ↳ ❌ Error: ${e.message}`, 'err'); }
-    }
-  }
-  logLine(logId, '✅ Diagnostics complete.', 'ok');
-}
-</script>
-
-<script>
-/* ============================================================
-   PRACTICE SESSION
-============================================================ */
-function startPractice() {
-  const type = document.getElementById('practiceType').value;
-  const count = document.getElementById('practiceCount').value;
-  let pool = [];
-  if (type === 'due') pool = vocab.filter(w => isDue(w));
-  if (type === 'all') pool = [...vocab];
-  if (type === 'new') pool = vocab.filter(w => (w.proficiency || 0) === 0);
-  if (type === 'weak') {
-    pool = vocab.filter(w => (w.reviewCount || 0) > 0).sort((a, b) => (getAccuracy(a) ?? 101) - (getAccuracy(b) ?? 101));
-    if (pool.length === 0) pool = [...vocab];
-  }
-  if (pool.length === 0) { showToast('⚠️ No words available for this session type. Add more words!', 'warning'); return; }
-  pool = shuffleArray(pool);
-  if (count !== 'all') pool = pool.slice(0, Math.min(parseInt(count), pool.length));
-  practiceSession = { words: pool, index: 0, score: 0, hintsUsed: 0, correct: 0, wrong: 0, startTime: Date.now() };
-  document.getElementById('practiceSetupCard').style.display = 'none';
-  document.getElementById('practiceCompleteCard').style.display = 'none';
-  document.getElementById('practiceSessionCard').style.display = 'block';
-  loadPracticeWord();
-  saveStreak();
-}
-
-function loadPracticeWord() {
-  const session
+          <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;">
+            <div style="font-size:32px; font-weight:900; color:var(--primary); font-family:'Courier New',monospace;">${escHtml(w.word)}</div>
+            <button class="btn-pronounce" onclick="pronounceWord('${escHtml(w.word)}', currentPron
