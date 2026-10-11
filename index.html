@@ -1729,3 +1729,33 @@ function loadYouglish() {
   const lang = document.getElementById('youglishLang').value;
   if (!word) { showToast('Please enter a word first', 'warning'); return; }
   document.getElementById('youglishFrame').src = `https://youglish.com/pronounce/${encodeURIComponent(word)}/${
+
+
+
+
+/* ===== CLICK FIX ===== */
+.modal-overlay {
+  pointer-events: none;
+}
+.modal-overlay.open {
+  pointer-events: all;
+}
+.toast-container {
+  pointer-events: none;
+}
+.toast {
+  pointer-events: all;
+}
+.word-item-actions {
+  position: relative;
+  z-index: 2;
+}
+.nav-tabs {
+  position: relative;
+  z-index: 10;
+}
+.app-header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
